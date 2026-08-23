@@ -1,0 +1,12 @@
+{
+  "name": "cinexis-home",
+  "version": "4.0.0",
+  "private": true,
+  "description": "CINEXIS Home — enrolment, local Home Assistant integration and ingress UI. No tunnel client, no shell, no privileged support functionality.",
+  "license": "UNLICENSED",
+  "main": "src/server.js",
+  "engines": { "node": ">=20 <21" },
+  "scripts": { "start": "node src/server.js", "test": "node --test test/" },
+  "//": "NO DEPENDENCIES. The Node standard library covers everything this app does, and an owner-facing app that runs in every house should carry the smallest dependency graph we can manage. It is also why there is no scanned-session WhatsApp library here, directly or transitively.",
+  "dependencies": {}
+}

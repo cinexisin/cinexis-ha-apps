@@ -1,0 +1,40 @@
+#include <tunables/global>
+
+# CINEXIS Home.
+#
+# The narrowest profile of anything we ship, because this is the app that runs in
+# every house all the time. It reads Home Assistant's API, talks outbound to
+# CINEXIS, and writes one private directory.
+profile cinexis_home flags=(attach_disconnected,mediate_deleted) {
+  #include <abstractions/base>
+
+  # No sys_admin, no net_admin, no net_raw, no net_bind_service: it listens on
+  # 8099, which is unprivileged, and dials out.
+  capability setgid,
+  capability setuid,
+
+  network inet  stream,
+  network inet6 stream,
+
+  /init ix,
+  /bin/** ix,
+  /usr/bin/** ix,
+  /usr/local/bin/node ix,
+
+  /app/** r,
+
+  # The ONLY writable location: its own private volume, holding the device key.
+  /data/** rwk,
+  /tmp/** rwk,
+
+  @{PROC}/@{pid}/** r,
+
+  # Explicitly denied, so a regression is refused rather than merely absent.
+  deny /usr/bin/chromium* rwklx,
+  deny /var/run/docker.sock rwklx,
+  deny /run/docker.sock rwklx,
+  deny /usr/local/bin/frpc rwklx,
+  deny /config/** rwklx,
+  deny /share/** rwklx,
+  deny /usr/bin/ssh* rwklx,
+}

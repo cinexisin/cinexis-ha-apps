@@ -1,0 +1,23 @@
+# Changelog
+
+## 4.0.0 — first zero-configuration release
+
+**Setup is now an email address.** The five fields the previous version asked for
+— server address, cloud address, tunnel host, tunnel port and tunnel domain —
+are gone. They were values a homeowner had no way to know or verify, and a text
+box somebody can be talked into changing. Endpoints now arrive in a signed
+document the app verifies against a key built into the release.
+
+- **New:** per-device identity. Your Home Assistant generates its own key on
+  first start; the private half never leaves your home. Devices are revoked
+  individually — there is no shared password to change.
+- **New:** Remote Support is optional and separate, so the everyday app keeps a
+  smaller set of permissions.
+- **Changed:** the app is now delivered as a signed, pre-built image. Nothing is
+  compiled on your device.
+- **Removed:** the WhatsApp pairing port (18083). Nothing is published to your
+  home network any more; the interface is served through Home Assistant ingress.
+- **Fixed:** a lapsed subscription no longer stops local control. Lights, scenes,
+  automations and local alerts keep working; only cloud features pause.
+
+Upgrading from 1.19.x keeps your existing settings.

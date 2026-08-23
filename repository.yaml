@@ -1,0 +1,12 @@
+# CINEXIS Home Assistant app repository.
+#
+# This file is what makes the one-click link work: Home Assistant reads it when
+# a repository URL is added, and lists whatever app folders sit beside it.
+#
+# NOTHING PROPRIETARY LIVES HERE. This repository carries manifests, branding and
+# documentation only. The application itself is a signed, pre-built image
+# referenced by digest — no backend source, no credentials, no device identities,
+# and nothing a customer's device has to compile.
+name: CINEXIS Home
+url: https://cinexis.in/ha
+maintainer: CINEXIS <support@cinexis.in>

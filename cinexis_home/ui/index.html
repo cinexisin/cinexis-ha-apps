@@ -1,0 +1,393 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>CINEXIS Home</title>
+<!--
+  The onboarding surface. It renders the sixteen contract states and nothing
+  else; every string it can show is either fixed here or arrives already masked
+  from the server. There is no field anywhere on this page for a URL, an IP, a
+  port, a token, a node id, an FRP value or a release channel — the owner is
+  never asked for infrastructure, so this page never asks for it either.
+
+  Single file, no external asset, no framework: ingress serves it directly and a
+  house with a slow connection should not wait on a bundle.
+-->
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #f6f7f9;      --card: #ffffff;    --ink: #16181d;
+    --muted: #5c6370;   --line: #e2e5ea;    --accent: #0b7ec4;
+    --accent-ink: #ffffff; --ok: #1f8b4c;   --warn: #a8630a;  --bad: #b3261e;
+    --focus: #0b7ec4;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0f1115;    --card: #171a21;    --ink: #e8eaed;
+      --muted: #9aa0aa; --line: #262b34;    --accent: #4aa8e0;
+      --accent-ink: #06202f; --ok: #4cc38a; --warn: #e0a458;  --bad: #ef6b63;
+      --focus: #6cc0ee;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    padding: max(16px, env(safe-area-inset-top)) 16px max(24px, env(safe-area-inset-bottom));
+    -webkit-text-size-adjust: 100%;
+  }
+  main { max-width: 34rem; margin: 0 auto; }
+  .card {
+    background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+    padding: 20px; margin: 0 0 14px;
+  }
+  h1 { font-size: 1.15rem; margin: 0 0 4px; letter-spacing: .01em; }
+  .sub { color: var(--muted); font-size: .875rem; margin: 0 0 18px; }
+  h2 { font-size: 1.05rem; margin: 0 0 8px; }
+  p { margin: 0 0 14px; }
+  p:last-child { margin-bottom: 0; }
+  label { display: block; font-size: .875rem; color: var(--muted); margin: 0 0 6px; }
+  input {
+    width: 100%; font: inherit; color: var(--ink); background: var(--bg);
+    border: 1px solid var(--line); border-radius: 10px; padding: 13px 14px;
+  }
+  input:focus-visible, button:focus-visible, .home:focus-visible {
+    outline: 3px solid var(--focus); outline-offset: 2px;
+  }
+  /* 16px minimum keeps iOS from zooming the whole page on focus. */
+  #code { font-size: 1.5rem; letter-spacing: .35em; text-align: center; padding: 14px; }
+  button {
+    font: inherit; font-weight: 600; border-radius: 10px; padding: 13px 18px;
+    border: 1px solid transparent; background: var(--accent); color: var(--accent-ink);
+    cursor: pointer; width: 100%; min-height: 48px;
+  }
+  button.ghost { background: transparent; color: var(--accent); border-color: var(--line); }
+  button[disabled] { opacity: .55; cursor: default; }
+  .actions { display: flex; flex-direction: column; gap: 10px; margin-top: 16px; }
+  @media (min-width: 30rem) { .actions { flex-direction: row-reverse; }
+    .actions button { width: auto; flex: 1 1 auto; } }
+  .home {
+    display: block; width: 100%; text-align: left; background: var(--bg);
+    color: var(--ink); border: 1px solid var(--line); padding: 15px 16px;
+    margin-bottom: 10px; font-weight: 500;
+  }
+  .home small { display: block; color: var(--muted); font-weight: 400; font-size: .85rem; }
+  .rows { border-top: 1px solid var(--line); margin-top: 16px; }
+  .row {
+    display: flex; justify-content: space-between; gap: 12px; align-items: baseline;
+    padding: 11px 0; border-bottom: 1px solid var(--line); font-size: .925rem;
+  }
+  .row span:first-child { color: var(--muted); }
+  .val { font-weight: 600; text-align: right; }
+  .ok { color: var(--ok); } .warn { color: var(--warn); } .bad { color: var(--bad); }
+  .err { color: var(--bad); font-size: .9rem; margin: 12px 0 0; }
+  .note { color: var(--muted); font-size: .85rem; }
+  .dots::after {
+    content: ""; display: inline-block; width: 1.1em; text-align: left;
+    animation: d 1.2s steps(4, end) infinite;
+  }
+  @keyframes d { 0%{content:""} 25%{content:"·"} 50%{content:"··"} 75%{content:"···"} }
+  @media (prefers-reduced-motion: reduce) { .dots::after { animation: none; content: "···"; } }
+  .sr {
+    position: absolute; width: 1px; height: 1px; overflow: hidden;
+    clip: rect(0 0 0 0); white-space: nowrap;
+  }
+</style>
+
+<main>
+  <h1>CINEXIS Home</h1>
+  <p class="sub">Connects this Home Assistant to your CINEXIS account.</p>
+  <div id="view" role="region" aria-live="polite" aria-busy="true"></div>
+</main>
+
+<script>
+'use strict';
+const $ = (id) => document.getElementById(id);
+const view = $('view');
+const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g,
+  c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+
+// Everything the owner is ever told. Server messages are used when present so
+// wording can be corrected without shipping a new image, but a state is never
+// blank just because a message was missing.
+const FALLBACK = {
+  loading:                    'Starting',
+  checking_home_assistant:    'Checking your Home Assistant',
+  enter_email:                'Enter your email address to connect this home.',
+  code_sent:                  'If that address is registered, we have sent a 6-digit code.',
+  verify_code:                'Enter the 6-digit code.',
+  multiple_homes:             'Which home is this?',
+  confirm_home:               'Connect this Home Assistant to this home?',
+  enrolling_device:           'Connecting',
+  connected:                  'Connected.',
+  pending_admin_assignment:   'Your email is verified. We have not linked it to a home yet.',
+  offline:                    'No internet connection. Your home keeps working.',
+  server_unavailable:         'CINEXIS is temporarily unavailable. Your home keeps working.',
+  email_provider_unavailable: 'We could not send the code right now.',
+  revoked:                    "This device's access was withdrawn.",
+  license_expired:            'Your subscription has expired, so cloud features are paused.',
+  reenrollment_required:      'This home needs to be connected again.',
+};
+
+let S = { state: 'loading' };   // last state document from the server
+let session = null;             // enrolment session token, memory only
+let handle = null;              // opaque challenge handle, memory only
+let busy = false, err = '', poll = null, resendAt = 0;
+
+async function api(path, body) {
+  const r = await fetch(path, body === undefined ? { headers: { accept: 'application/json' } }
+    : { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) });
+  return { status: r.status, body: await r.json().catch(() => ({})) };
+}
+
+async function refresh() {
+  try { const r = await api('api/state'); S = r.body || { state: 'offline' }; }
+  catch { S = { state: 'offline', can_retry: true, local_control: 'ok' }; }
+  render();
+}
+
+/** Local step, i.e. one the server does not know about yet (a code was sent,
+    a home list is on screen). Polling would overwrite it, so it pauses. */
+function step(next) { S = next; err = ''; render(); }
+
+function msg(s) { return s.message || FALLBACK[s.state] || ''; }
+
+/** The message paragraph, unless it just repeats the heading above it. */
+function body(s, heading) {
+  const m = msg(s);
+  const norm = (t) => t.toLowerCase().replace(/[^a-z]/g, '');
+  return !m || norm(m) === norm(heading) ? '' : `<p>${esc(m)}</p>`;
+}
+
+function card(inner) { return '<section class="card">' + inner + '</section>'; }
+
+function actions(list) {
+  return '<div class="actions">' + list.map(a =>
+    `<button ${a.ghost ? 'class="ghost" ' : ''}data-act="${a.act}"${a.disabled ? ' disabled' : ''}>${esc(a.label)}</button>`
+  ).join('') + '</div>';
+}
+
+function statusRow(label, value, cls) {
+  return `<div class="row"><span>${esc(label)}</span><span class="val ${cls || ''}">${esc(value)}</span></div>`;
+}
+
+// "Your home keeps working" is the single most important sentence on this page.
+// A cloud problem must never read like a broken house.
+const HOUSE_FINE = '<p class="note">Your lights, scenes and automations run on '
+  + 'Home Assistant itself and are not affected.</p>';
+
+function render() {
+  const s = S, st = s.state;
+  const working = st === 'loading' || st === 'checking_home_assistant' || st === 'enrolling_device';
+  view.setAttribute('aria-busy', working ? 'true' : 'false');
+  let html = '';
+
+  if (working) {
+    html = card(`<h2><span>${esc(msg(s))}</span><span class="dots"></span></h2>`
+      + (st === 'checking_home_assistant' && s.detected
+        ? `<p class="note">Home Assistant ${esc(s.detected.core_version || '')}</p>` : ''));
+  }
+
+  else if (st === 'enter_email') {
+    html = card(`<h2>Connect this home</h2>` + body(s, 'Connect this home') + `
+      <label for="email">Email address</label>
+      <input id="email" type="email" inputmode="email" autocomplete="email"
+             autocapitalize="off" spellcheck="false" placeholder="you@example.com">`
+      + actions([{ act: 'email', label: busy ? 'Sending…' : 'Continue', disabled: busy }]));
+  }
+
+  else if (st === 'code_sent' || st === 'verify_code') {
+    const left = Math.max(0, Math.ceil((resendAt - Date.now()) / 1000));
+    html = card(`<h2>Check your email</h2>
+      <p>${esc(msg(s))}${s.masked_email ? ' Sent to <strong>' + esc(s.masked_email) + '</strong>.' : ''}</p>
+      <label for="code">6-digit code</label>
+      <input id="code" type="text" inputmode="numeric" autocomplete="one-time-code"
+             maxlength="6" pattern="[0-9]*" aria-describedby="codehelp">
+      <p id="codehelp" class="note" style="margin-top:8px">`
+      + (Number.isFinite(s.attempts_remaining)
+          ? esc(s.attempts_remaining) + ' attempt' + (s.attempts_remaining === 1 ? '' : 's') + ' remaining. '
+          : '')
+      + 'The code expires shortly.</p>'
+      + actions([
+          { act: 'verify', label: busy ? 'Checking…' : 'Continue', disabled: busy },
+          { act: 'resend', ghost: true, disabled: busy || left > 0,
+            label: left > 0 ? `Send again in ${left}s` : 'Send a new code' },
+        ]));
+  }
+
+  else if (st === 'multiple_homes' || st === 'confirm_home') {
+    const homes = s.homes || [];
+    const single = st === 'confirm_home' && homes.length === 1;
+    const head = single ? 'Is this the right home?' : 'Which home is this?';
+    html = card(`<h2>${head}</h2>` + body(s, head)
+      + homes.map(h => `<button class="home" data-act="home" data-ref="${esc(h.home_ref)}">
+            ${esc(h.masked_name || 'Home')}
+            <small>${esc(h.masked_location || '')}${h.status && h.status !== 'active'
+              ? ' · ' + esc(h.status) : ''}</small></button>`).join('')
+      + `<p class="note">Names are shortened on purpose — enough for you to
+         recognise your own home, not enough to identify anyone else's.</p>`
+      + actions([{ act: 'restart', ghost: true, label: 'Use a different email' }]));
+  }
+
+  else if (st === 'connected') {
+    const m = (v) => v === 'ok' ? ['Working', 'ok']
+      : v === 'restricted' ? ['Paused', 'warn']
+      : v === 'not_installed' ? ['Not installed', '']
+      : v === 'degraded' ? ['Limited', 'warn'] : [String(v || '—'), ''];
+    const [c, cc] = m(s.cinexis_cloud), [l, lc] = m(s.local_control),
+          [w, wc] = m(s.wabot), [r, rc] = m(s.remote_support);
+    html = card(`<h2 class="ok">Connected</h2>
+      <p>This Home Assistant is connected${s.masked_home_name
+        ? ' to <strong>' + esc(s.masked_home_name) + '</strong>' : ''}.</p>
+      <div class="rows">`
+      + statusRow('Home Assistant', s.home_assistant_detected ? 'Detected' : 'Not detected',
+                  s.home_assistant_detected ? 'ok' : 'warn')
+      + statusRow('Local control', l, lc)
+      + statusRow('CINEXIS cloud', c, cc)
+      + statusRow('WABot messaging', w, wc)
+      + statusRow('Remote support', r, rc)
+      + (s.masked_email ? statusRow('Account', s.masked_email) : '')
+      + '</div>'
+      + actions([{ act: 'reenrol', ghost: true, label: 'Connect a different account' }]));
+  }
+
+  else if (st === 'pending_admin_assignment') {
+    html = card(`<h2>Almost there</h2>` + body(s, 'Almost there') + `
+      <p class="note">We link homes by hand so that nobody is ever connected to
+      the wrong house by accident. You do not need to do anything else here.</p>`
+      + actions([{ act: 'support', ghost: true, label: 'Contact support' },
+                 { act: 'retry', label: 'Check again' }]));
+  }
+
+  else if (st === 'offline' || st === 'server_unavailable') {
+    const head = st === 'offline' ? 'No connection' : 'CINEXIS is unavailable';
+    html = card(`<h2>${head}</h2>` + body(s, head) + HOUSE_FINE
+      + actions([{ act: 'retry', label: busy ? 'Trying…' : 'Try again', disabled: busy }]));
+  }
+
+  else if (st === 'email_provider_unavailable') {
+    html = card(`<h2>Could not send the code</h2>` + body(s, 'Could not send the code') + ``
+      + actions([{ act: 'support', ghost: true, label: 'Contact support' },
+                 { act: 'retry', label: 'Try again' }]));
+  }
+
+  else if (st === 'revoked') {
+    html = card(`<h2 class="warn">Access withdrawn</h2>` + body(s, 'Access withdrawn') + HOUSE_FINE
+      + actions([{ act: 'support', ghost: true, label: 'Contact support' },
+                 { act: 'reenrol', label: 'Connect again' }]));
+  }
+
+  else if (st === 'license_expired') {
+    html = card(`<h2 class="warn">Subscription expired</h2>` + body(s, 'Subscription expired') + HOUSE_FINE
+      + actions([{ act: 'support', ghost: true, label: 'Contact support' },
+                 { act: 'renew', label: 'Renew' }]));
+  }
+
+  else if (st === 'reenrollment_required') {
+    html = card(`<h2>Connect this home again</h2>` + body(s, 'Connect this home again') + HOUSE_FINE
+      + actions([{ act: 'reenrol', label: 'Start again' }]));
+  }
+
+  else {
+    // Never a blank screen, and never a raw state name presented as an excuse.
+    html = card('<h2>One moment</h2><p>CINEXIS is checking this home.</p>'
+      + actions([{ act: 'retry', label: 'Try again' }]));
+  }
+
+  if (err) html += `<p class="err" role="alert">${esc(err)}</p>`;
+  view.innerHTML = html;
+  const first = view.querySelector('input');
+  if (first && document.activeElement === document.body) first.focus();
+}
+
+const SUPPORT = 'If you need help, reply to any CINEXIS message or contact your '
+  + 'CINEXIS representative. Please do not share passwords or codes.';
+
+async function act(name, el) {
+  if (busy) return;
+  err = '';
+  try {
+    if (name === 'retry') { busy = true; render(); await refresh(); }
+
+    else if (name === 'email') {
+      const v = ($('email').value || '').trim();
+      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v)) { err = 'Enter a valid email address.'; return render(); }
+      busy = true; render();
+      const r = await api('api/enroll/email', { email: v });
+      if (r.status === 503) { S = { state: 'email_provider_unavailable' }; return render(); }
+      handle = r.body.handle || null;
+      resendAt = Date.now() + 1000 * (r.body.resend_after_s || 60);
+      // Identical response whether or not the account exists.
+      step({ state: 'code_sent', masked_email: r.body.masked_email, can_retry: true });
+    }
+
+    else if (name === 'resend') { step({ state: 'enter_email' }); }
+
+    else if (name === 'verify') {
+      const code = ($('code').value || '').replace(/\D/g, '');
+      if (code.length !== 6) { err = 'Enter the 6 digits from the email.'; return render(); }
+      busy = true; render();
+      const r = await api('api/enroll/verify', { handle, code });
+      if (!r.body.ok) {
+        err = r.body.attempts_remaining === 0
+          ? 'That code is no longer valid. Send a new one.'
+          : 'That code did not match.';
+        S = { ...S, state: 'verify_code', attempts_remaining: r.body.attempts_remaining };
+        return render();
+      }
+      session = r.body.session;
+      const homes = r.body.homes || [];
+      if (homes.length === 0) step({ state: 'pending_admin_assignment', masked_email: S.masked_email });
+      else if (homes.length === 1) step({ state: 'confirm_home', homes, masked_email: S.masked_email });
+      else step({ state: 'multiple_homes', homes, masked_email: S.masked_email });
+    }
+
+    else if (name === 'home') {
+      busy = true; step({ state: 'enrolling_device' });
+      const sel = await api('api/enroll/home', { session, home_ref: el.dataset.ref });
+      if (!sel.body.ok) { err = 'That home could not be selected. Start again.'; S = { state: 'enter_email' }; return render(); }
+      const dev = await api('api/enroll/device', { session });
+      if (!dev.body.ok) { err = 'This device could not be connected. Try again shortly.'; S = { state: 'enter_email' }; return render(); }
+      session = null; handle = null;         // nothing to keep once enrolled
+      await refresh();
+    }
+
+    else if (name === 'reenrol') { await api('api/reenrol', {}); session = handle = null; await refresh(); }
+    else if (name === 'restart') { session = handle = null; step({ state: 'enter_email' }); }
+    else if (name === 'support') { err = SUPPORT; render(); }
+    else if (name === 'renew')   { err = 'Your CINEXIS representative can renew this subscription for you. ' + SUPPORT; render(); }
+  } catch {
+    err = 'Something went wrong. Your home is unaffected.';
+  } finally { busy = false; render(); }
+}
+
+view.addEventListener('click', (e) => {
+  const b = e.target.closest('[data-act]');
+  if (b && !b.disabled) act(b.dataset.act, b);
+});
+view.addEventListener('keydown', (e) => {
+  if (e.key !== 'Enter') return;
+  if (e.target.id === 'email') act('email');
+  if (e.target.id === 'code') act('code'.length && 'verify');
+});
+
+// Poll only while the server owns the state. During the code and home steps the
+// browser holds a step the server has not been told about yet.
+function schedule() {
+  clearInterval(poll);
+  poll = setInterval(() => {
+    const local = ['code_sent', 'verify_code', 'multiple_homes', 'confirm_home'];
+    if (!busy && !local.includes(S.state)) refresh();
+    else if (S.state === 'code_sent' || S.state === 'verify_code') render();  // resend countdown
+  }, 5000);
+}
+
+// A fixture query is honoured only when the server is running with fixtures on;
+// otherwise this is an ordinary load.
+const fx = new URLSearchParams(location.search).get('fixture');
+(async () => {
+  if (fx) {
+    const r = await api('api/state?fixture=' + encodeURIComponent(fx));
+    S = r.body; render();
+  } else { await refresh(); schedule(); }
+})();
+</script>

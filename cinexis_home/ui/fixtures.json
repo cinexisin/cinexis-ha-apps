@@ -1,0 +1,170 @@
+{
+ "generated_from": "cinexis-cloud src/ha/fixtures.js",
+ "states": [
+  "loading",
+  "checking_home_assistant",
+  "enter_email",
+  "code_sent",
+  "verify_code",
+  "multiple_homes",
+  "confirm_home",
+  "enrolling_device",
+  "connected",
+  "pending_admin_assignment",
+  "offline",
+  "server_unavailable",
+  "email_provider_unavailable",
+  "revoked",
+  "license_expired",
+  "reenrollment_required"
+ ],
+ "fixtures": {
+  "loading": {
+   "state": "loading",
+   "can_retry": false,
+   "owner_action": null,
+   "message": "Starting…"
+  },
+  "checking_home_assistant": {
+   "state": "checking_home_assistant",
+   "can_retry": false,
+   "owner_action": null,
+   "message": "Checking your Home Assistant…",
+   "detected": {
+    "core_version": "2026.8.1",
+    "supervisor": "2026.08.0",
+    "arch": "aarch64"
+   }
+  },
+  "enter_email": {
+   "state": "enter_email",
+   "can_retry": false,
+   "owner_action": "enter_email",
+   "message": "Enter your email address to connect this home."
+  },
+  "code_sent": {
+   "state": "code_sent",
+   "can_retry": true,
+   "owner_action": "check_email",
+   "message": "If that address is registered, we have sent a 6-digit code.",
+   "masked_email": "jo•••@ex•••.com",
+   "expires_in_s": 600,
+   "resend_after_s": 60
+  },
+  "verify_code": {
+   "state": "verify_code",
+   "can_retry": true,
+   "owner_action": "enter_code",
+   "message": "Enter the 6-digit code.",
+   "masked_email": "jo•••@ex•••.com",
+   "attempts_remaining": 5,
+   "expires_in_s": 540
+  },
+  "multiple_homes": {
+   "state": "multiple_homes",
+   "can_retry": false,
+   "owner_action": "choose_home",
+   "message": "Which home is this?",
+   "masked_email": "jo•••@ex•••.com",
+   "homes": [
+    {
+     "home_ref": "hr_11111111111111111111111111111111",
+     "masked_name": "Gr••• V•••",
+     "masked_location": "Ch•••",
+     "status": "active"
+    },
+    {
+     "home_ref": "hr_22222222222222222222222222222222",
+     "masked_name": "Be••• H•••",
+     "masked_location": "Po•••",
+     "status": "active"
+    }
+   ]
+  },
+  "confirm_home": {
+   "state": "confirm_home",
+   "can_retry": false,
+   "owner_action": "confirm_home",
+   "message": "Connect this Home Assistant to this home?",
+   "masked_email": "jo•••@ex•••.com",
+   "homes": [
+    {
+     "home_ref": "hr_33333333333333333333333333333333",
+     "masked_name": "So••• H•••",
+     "masked_location": "Ma•••",
+     "status": "active"
+    }
+   ]
+  },
+  "enrolling_device": {
+   "state": "enrolling_device",
+   "can_retry": false,
+   "owner_action": null,
+   "message": "Connecting…"
+  },
+  "connected": {
+   "state": "connected",
+   "can_retry": false,
+   "owner_action": null,
+   "message": "Connected.",
+   "masked_home_name": "So••• H•••",
+   "masked_email": "jo•••@ex•••.com",
+   "home_assistant_detected": true,
+   "cinexis_cloud": "ok",
+   "local_control": "ok",
+   "wabot": "ok",
+   "remote_support": "not_installed",
+   "last_connected_at": 1787500000,
+   "support_action": "contact_support"
+  },
+  "pending_admin_assignment": {
+   "state": "pending_admin_assignment",
+   "can_retry": false,
+   "owner_action": "contact_support",
+   "message": "Your email is verified. We have not linked it to a home yet — we do that by hand so nobody is connected to the wrong house by accident.",
+   "masked_email": "jo•••@ex•••.com"
+  },
+  "offline": {
+   "state": "offline",
+   "can_retry": true,
+   "owner_action": "retry",
+   "message": "No internet connection. Your home keeps working — lights, scenes and automations do not depend on CINEXIS.",
+   "local_control": "ok"
+  },
+  "server_unavailable": {
+   "state": "server_unavailable",
+   "can_retry": true,
+   "owner_action": "retry",
+   "message": "CINEXIS is temporarily unavailable. Your home keeps working.",
+   "local_control": "ok"
+  },
+  "email_provider_unavailable": {
+   "state": "email_provider_unavailable",
+   "can_retry": true,
+   "owner_action": "contact_support",
+   "message": "We could not send the code right now. Try again shortly, or contact support."
+  },
+  "revoked": {
+   "state": "revoked",
+   "can_retry": false,
+   "owner_action": "reenrol",
+   "message": "This device's access was withdrawn. Connect again, or contact support.",
+   "local_control": "ok"
+  },
+  "license_expired": {
+   "state": "license_expired",
+   "can_retry": false,
+   "owner_action": "renew",
+   "message": "Your subscription has expired, so cloud features are paused. Your home keeps working — lights, scenes, automations and local alerts are unaffected.",
+   "local_control": "ok",
+   "cinexis_cloud": "restricted"
+  },
+  "reenrollment_required": {
+   "state": "reenrollment_required",
+   "can_retry": false,
+   "owner_action": "reenrol",
+   "message": "This home needs to be connected again. Start with your email address.",
+   "local_control": "ok"
+  }
+ }
+}

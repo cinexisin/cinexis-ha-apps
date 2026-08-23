@@ -1,0 +1,11 @@
+configuration:
+  channel:
+    name: Update channel
+    description: >-
+      Leave this on "stable" unless CINEXIS support asks you to change it.
+      "rc" connects to our test service and is for pre-release testing only.
+  log_level:
+    name: Log detail
+    description: >-
+      How much the app writes to its log. Leave on "info" unless support asks
+      for more while looking into something.
