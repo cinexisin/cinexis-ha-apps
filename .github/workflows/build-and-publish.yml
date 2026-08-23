@@ -76,12 +76,6 @@ jobs:
           tags: |
             type=raw,value=${{ steps.ver.outputs.version }}
             type=raw,value=latest
-          labels: |
-            org.opencontainers.image.source=https://github.com/${{ github.repository }}
-            org.opencontainers.image.description=CINEXIS Home — connects a Home Assistant installation to a CINEXIS account
-            org.opencontainers.image.licenses=Proprietary
-            org.opencontainers.image.vendor=CINEXIS
-            org.opencontainers.image.title=CINEXIS Home (${{ matrix.arch }})
 
       - id: build
         uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6
@@ -96,9 +90,25 @@ jobs:
             BUILD_ARCH=${{ matrix.arch }}
             CINEXIS_CHANNEL=stable
           tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          # Set here rather than via metadata-action: its generated labels take
+          # precedence over supplied ones, so image.title became the repository
+          # name and image.licenses came out empty. image.source is what links
+          # the package to this repository, so it must be right.
+          labels: |
+            org.opencontainers.image.source=https://github.com/${{ github.repository }}
+            org.opencontainers.image.url=https://github.com/${{ github.repository }}
+            org.opencontainers.image.title=CINEXIS Home (${{ matrix.arch }})
+            org.opencontainers.image.description=Connects a Home Assistant installation to a CINEXIS account
+            org.opencontainers.image.licenses=LicenseRef-CINEXIS-Proprietary
+            org.opencontainers.image.vendor=CINEXIS
+            org.opencontainers.image.version=${{ steps.ver.outputs.version }}
+            org.opencontainers.image.revision=${{ github.sha }}
 
       - uses: anchore/sbom-action@e22c389904149dbc22b58101806040fa8d37a610 # v0
+        env:
+          # The runner is amd64. Without this, syft asks the registry for an
+          # amd64 child of an arm64-only image and fails.
+          SYFT_PLATFORM: ${{ matrix.platform }}
         with:
           image: ${{ env.REGISTRY }}/${{ github.repository_owner }}/cinexis-home-${{ matrix.arch }}@${{ steps.build.outputs.digest }}
           format: spdx-json
@@ -133,20 +143,24 @@ jobs:
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with: { path: digests }
 
+      # The runner is amd64; running the arm64 image needs emulation.
+      - uses: docker/setup-qemu-action@c7c53464625b32c7a7e944ae62b3e17d2b600130 # v3
+
       # An anonymous pull. Not `docker login` — the point is to prove a customer
       # with no credentials can fetch exactly the digest we published.
       - name: Pull anonymously by digest
         run: |
           set -euo pipefail
           for arch in aarch64 amd64; do
+            case "$arch" in aarch64) PLAT=linux/arm64 ;; *) PLAT=linux/amd64 ;; esac
             D=$(cat "digests/digest-${arch}/digest-${arch}.txt")
             REF="ghcr.io/${{ github.repository_owner }}/cinexis-home-${arch}@${D}"
-            echo "== $REF"
+            echo "== $REF ($PLAT)"
             docker logout ghcr.io || true
-            docker pull "$REF"
+            docker pull --platform "$PLAT" "$REF"
             docker image inspect "$REF" --format 'arch={{.Architecture}} size={{.Size}}'
             # No dependencies, so no transitive scanned-session library.
-            docker run --rm --entrypoint sh "$REF" -c '
+            docker run --rm --platform "$PLAT" --entrypoint sh "$REF" -c '
               [ -d /app/node_modules ] && { echo "node_modules present"; exit 1; }
               for b in frpc ssh sshd docker chromium npm gcc; do
                 command -v $b >/dev/null 2>&1 && { echo "$b present"; exit 1; }
