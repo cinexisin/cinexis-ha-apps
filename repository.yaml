@@ -8,5 +8,5 @@
 # referenced by digest — no backend source, no credentials, no device identities,
 # and nothing a customer's device has to compile.
 name: CINEXIS Home
-url: https://cinexis.in/ha
-maintainer: CINEXIS <support@cinexis.in>
+url: https://cinexis.cloud/home-assistant
+maintainer: CINEXIS <support@cinexis.cloud>

@@ -39,9 +39,13 @@ fault — please report it.
 | Add-on | What it does | Default |
 |---|---|---|
 | **CINEXIS Home** | Connects this Home Assistant to your CINEXIS account: enrolment, status, messaging connectivity | Install this one |
-| **CINEXIS Remote Support** | Lets a CINEXIS engineer help with a problem, for one approved session at a time | Not installed, not required |
+| **CINEXIS Remote Support** | Lets a CINEXIS engineer help with a problem, for one approved session at a time | **Not published yet** — coming after separate security validation |
 
-Remote Support is deliberately a **separate** add-on. The everyday app has no
+Remote Support is **not in this repository yet.** It is deliberately a
+**separate** add-on and will be published only after its own security
+validation — it is not bundled into CINEXIS Home to make a table look complete.
+
+When it does arrive, it will still be separate. The everyday app has no
 tunnel client, no shell, no Docker socket, no add-on management and no access to
 your Home Assistant configuration folder. Support access is something you switch
 on, approve per session, and can end at any moment.

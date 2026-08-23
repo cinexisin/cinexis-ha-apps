@@ -2,7 +2,7 @@
 
 ## Reporting a vulnerability
 
-Email **security@cinexis.in** with enough detail to reproduce the issue. If you
+Email **security@cinexis.cloud** with enough detail to reproduce the issue. If you
 would rather not use email, open a GitHub security advisory on this repository.
 
 Please include what you did, what happened, and what you expected. A proof of

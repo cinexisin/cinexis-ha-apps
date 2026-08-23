@@ -49,9 +49,9 @@ last ten minutes.
 
 **"Waiting for an administrator"** — your email is verified but not yet linked to
 a home. We assign it manually on purpose, so nobody is connected to the wrong
-house by accident. Contact support@cinexis.in.
+house by accident. Contact support@cinexis.cloud.
 
 **"Offline"** — your Home Assistant cannot reach the internet, or CINEXIS is
 temporarily unavailable. Your home is unaffected; the app retries by itself.
 
-**Still stuck** — support@cinexis.in
+**Still stuck** — support@cinexis.cloud

@@ -20,7 +20,7 @@ const path = require('path');
 /** Release metadata, baked in. Not a setting, and not visible to the owner. */
 const CHANNEL = (process.env.CINEXIS_CHANNEL || 'stable').trim();
 const BOOTSTRAP_URL = process.env.CINEXIS_BOOTSTRAP_URL
-  || 'https://api.cinexis.in/api/ha/bootstrap';
+  || 'https://go.cinexis.cloud/api/ha/bootstrap';
 
 function publicKeyPem() {
   if (process.env.CINEXIS_BOOTSTRAP_PUBKEY) {

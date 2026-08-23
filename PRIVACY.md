@@ -38,7 +38,7 @@ add-on.
 
 ## Retention and deletion
 
-Ask us at **privacy@cinexis.in** to see, correct or delete what we hold. Removing
+Ask us at **privacy@cinexis.cloud** to see, correct or delete what we hold. Removing
 the add-on and asking us to revoke the device ends the connection immediately;
 local Home Assistant operation is unaffected.
 

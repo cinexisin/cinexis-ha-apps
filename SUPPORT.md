@@ -2,7 +2,7 @@
 
 ## Getting help
 
-Email **support@cinexis.in**, or reply to any CINEXIS message.
+Email **support@cinexis.cloud**, or reply to any CINEXIS message.
 
 **Never send a password, a verification code, a recovery code or a device secret
 to anyone, including us.** We will not ask for them.

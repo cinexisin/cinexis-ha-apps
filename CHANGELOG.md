@@ -42,3 +42,28 @@ and the stable endpoint is not configured yet. Until it is, the add-on installs,
 starts and runs, and reports "CINEXIS is temporarily unavailable" rather than
 connecting. That is the intended fail-closed behaviour: the add-on will not
 accept an unverified configuration. Local Home Assistant control is unaffected.
+
+## 4.1.0-pilot.4
+
+Owner-test release. The first build an owner can install and enrol with.
+
+* **Canonical domain.** Every public reference moves from `cinexis.in`, which is
+  not ours, to `cinexis.cloud`. That included the bootstrap endpoint baked into
+  the image — the previous build would have asked a domain we do not control
+  where to connect.
+* **Stable channel is live.** `4.1.0-pilot.3` requested the stable bootstrap and
+  the endpoint did not exist, so the add-on installed and then reported CINEXIS
+  unavailable. It now resolves to a signed document at
+  `https://go.cinexis.cloud`, verified against the public key in this image.
+* **One-click installation page** at `https://go.cinexis.cloud`, with the manual
+  repository route documented just as prominently.
+* **Support, privacy and security contacts** now under `cinexis.cloud`.
+* **Remote Support** is described accurately: not published, coming after
+  separate security validation. It is not bundled into CINEXIS Home.
+
+Unchanged: ingress only, no published port, no `/config` or `/share` mount, no
+Docker socket, no Supervisor add-on management, no tunnel client, and zero
+dependencies. Local Home Assistant control is unaffected by anything CINEXIS
+does or fails to do.
+
+`4.1.0-pilot.3` is not modified. A released tag is never rebuilt or moved.
