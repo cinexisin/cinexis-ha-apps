@@ -131,7 +131,24 @@ const FALLBACK = {
 let S = { state: 'loading' };   // last state document from the server
 let session = null;             // enrolment session token, memory only
 let handle = null;              // opaque challenge handle, memory only
-let busy = false, err = '', poll = null, resendAt = 0;
+let busy = false, err = '', poll = null, resendAt = 0, ticks = 0;
+
+// WHO OWNS THE CURRENT STEP
+// -------------------------
+// /api/state reports the DEVICE's state. It knows nothing about a code this
+// browser just sent, a session it holds, or a verification that already
+// succeeded — it has no browser verification context at all. Polling it and
+// assigning the answer over S is what reset a verified "Almost there" back to
+// the email form after five seconds, and it would do the same to any other step
+// the browser is holding.
+//
+// Once the browser owns the flow, the poll never refreshes from that endpoint
+// again. Only an explicit restart returns to email entry.
+const BROWSER_OWNED = ['code_sent', 'verify_code', 'multiple_homes',
+                       'confirm_home', 'pending_admin_assignment'];
+function browserOwned() {
+  return !!(session || handle) || BROWSER_OWNED.indexOf(S.state) !== -1;
+}
 
 async function api(path, body) {
   const r = await fetch(path, body === undefined ? { headers: { accept: 'application/json' } }
@@ -139,9 +156,20 @@ async function api(path, body) {
   return { status: r.status, body: await r.json().catch(() => ({})) };
 }
 
+// A poll that returns the same state must not touch the DOM at all. Saving and
+// restoring input values across a re-render keeps the text, but it still swaps
+// the live elements out from under the owner — losing element identity, IME
+// composition and anything else attached to the node. The cheapest correct
+// answer is not to re-render when nothing changed.
+function signature(x) {
+  try { return JSON.stringify(x); } catch (_) { return String(x && x.state); }
+}
+
 async function refresh() {
+  const before = signature(S);
   try { const r = await api('api/state'); S = r.body || { state: 'offline' }; }
   catch { S = { state: 'offline', can_retry: true, local_control: 'ok' }; }
+  if (signature(S) === before) return;   // nothing changed; leave the form alone
   render();
 }
 
@@ -162,7 +190,7 @@ function card(inner) { return '<section class="card">' + inner + '</section>'; }
 
 function actions(list) {
   return '<div class="actions">' + list.map(a =>
-    `<button ${a.ghost ? 'class="ghost" ' : ''}data-act="${a.act}"${a.disabled ? ' disabled' : ''}>${esc(a.label)}</button>`
+    `<button ${a.ghost ? 'class="ghost" ' : ''}data-act="${a.act}"${a.id ? ` id="${a.id}"` : ''}${a.disabled ? ' disabled' : ''}>${esc(a.label)}</button>`
   ).join('') + '</div>';
 }
 
@@ -209,7 +237,9 @@ function render() {
       + 'The code expires shortly.</p>'
       + actions([
           { act: 'verify', label: busy ? 'Checking…' : 'Continue', disabled: busy },
-          { act: 'resend', ghost: true, disabled: busy || left > 0,
+          // Updated in place by tick(); re-rendering this card once a second
+          // would wipe whatever the owner had typed into #code.
+          { act: 'resend', ghost: true, id: 'resendbtn', disabled: busy || left > 0,
             label: left > 0 ? `Send again in ${left}s` : 'Send a new code' },
         ]));
   }
@@ -253,9 +283,11 @@ function render() {
   else if (st === 'pending_admin_assignment') {
     html = card(`<h2>Almost there</h2>` + body(s, 'Almost there') + `
       <p class="note">We link homes by hand so that nobody is ever connected to
-      the wrong house by accident. You do not need to do anything else here.</p>`
-      + actions([{ act: 'support', ghost: true, label: 'Contact support' },
-                 { act: 'retry', label: 'Check again' }]));
+      the wrong house by accident. You do not need to do anything else here.</p>
+      <p class="note">There is nothing to check again from here. This screen stays
+      as it is; when CINEXIS has linked your home, start the connection again and
+      it will be waiting for you.</p>`
+      + actions([{ act: 'support', ghost: true, label: 'Contact support' }]));
   }
 
   else if (st === 'offline' || st === 'server_unavailable') {
@@ -294,9 +326,44 @@ function render() {
   }
 
   if (err) html += `<p class="err" role="alert">${esc(err)}</p>`;
+  // Capture what the owner is in the middle of doing. A full re-render replaces
+  // the input elements, and without this their text, focus and caret position are
+  // destroyed — which is what erased the address and the code mid-typing.
+  const activeId = document.activeElement && document.activeElement.id;
+  const saved = {};
+  view.querySelectorAll('input').forEach((i) => {
+    if (!i.id) return;
+    saved[i.id] = { value: i.value, start: i.selectionStart, end: i.selectionEnd };
+  });
+
   view.innerHTML = html;
-  const first = view.querySelector('input');
-  if (first && document.activeElement === document.body) first.focus();
+
+  view.querySelectorAll('input').forEach((i) => {
+    const prev = saved[i.id];
+    if (!prev) return;
+    i.value = prev.value;
+    if (prev.start != null) { try { i.setSelectionRange(prev.start, prev.end); } catch (_) {} }
+  });
+
+  const again = activeId && $(activeId);
+  if (again && typeof again.focus === 'function') {
+    again.focus();
+    const prev = saved[activeId];
+    if (prev && prev.start != null) { try { again.setSelectionRange(prev.start, prev.end); } catch (_) {} }
+  } else {
+    const first = view.querySelector('input');
+    if (first && document.activeElement === document.body) first.focus();
+  }
+}
+
+// A timer tick must never re-render an interactive card. It edits the one label
+// that changes and leaves every input element exactly where it was.
+function tick() {
+  const btn = $('resendbtn');
+  if (!btn) return;
+  const left = Math.max(0, Math.ceil((resendAt - Date.now()) / 1000));
+  btn.textContent = left > 0 ? `Send again in ${left}s` : 'Send a new code';
+  btn.disabled = busy || left > 0;
 }
 
 const SUPPORT = 'If you need help, reply to any CINEXIS message or contact your '
@@ -374,11 +441,14 @@ view.addEventListener('keydown', (e) => {
 // browser holds a step the server has not been told about yet.
 function schedule() {
   clearInterval(poll);
+  ticks = 0;
   poll = setInterval(() => {
-    const local = ['code_sent', 'verify_code', 'multiple_homes', 'confirm_home'];
-    if (!busy && !local.includes(S.state)) refresh();
-    else if (S.state === 'code_sent' || S.state === 'verify_code') render();  // resend countdown
-  }, 5000);
+    ticks++;
+    tick();                       // in-place label edit only; never a re-render
+    if (busy) return;
+    if (browserOwned()) return;   // /api/state cannot describe this step
+    if (ticks % 5 === 0) refresh();
+  }, 1000);
 }
 
 // A fixture query is honoured only when the server is running with fixtures on;

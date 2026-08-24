@@ -1,3 +1,21 @@
+## 4.1.0-pilot.8
+
+The code arrived, verification succeeded, "Almost there" appeared — and five
+seconds later the screen went back to asking for an email. Typing was erased on
+the same five-second beat.
+
+- The poll was overwriting the browser's state with `/api/state`, which reports
+  the **device's** state and cannot see that a browser just verified a code.
+  Once the browser owns the flow, the poll no longer refreshes from it, so
+  "Almost there" is now stable indefinitely.
+- The timer no longer re-renders the card. It edits the resend countdown in
+  place, and a refresh that returns an unchanged state does not touch the DOM.
+  When a render is genuinely needed, input value, focus, selection and caret are
+  preserved across it.
+- "Check again" is removed. It called the same endpoint that caused the reset,
+  and a genuine session-bound status endpoint does not exist yet. The screen now
+  explains that CINEXIS links the home and that you start again once it has.
+
 ## 4.1.0-pilot.7
 
 pilot.6 completed s6 startup and then Node died:
