@@ -3,7 +3,7 @@
 # the previous hand-kept copy drifted and kept offering a setting the
 # app had already removed.
 name: CINEXIS Home
-version: "4.1.0-pilot.5"
+version: "4.1.0-pilot.6"
 slug: cinexis_home
 description: Connect your home to CINEXIS. Enter your email — no server address, no token, no code to scan.
 url: https://cinexis.cloud/home-assistant

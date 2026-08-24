@@ -1,3 +1,23 @@
+## 4.1.0-pilot.6
+
+pilot.5 started further and then stopped under real AppArmor:
+
+    stage0: exec: line 87: /run/s6/basedir/bin/init: Permission denied
+
+`/run/** rwk` grants read, write and lock — not execute. s6-overlay writes
+executables into `/run` at startup and then runs them, so the first thing it
+generated was the first thing it could not run.
+
+- Execute is now granted to the three trees s6 actually runs from — `/run/s6/**`,
+  `/run/service/**` and `/run/s6-rc*/**` (that last one has a random per-boot
+  suffix). Enumerated from a running container: 31 executables, not one.
+- `/run/**` keeps `rwk`. Everything else under `/run` is state, not code.
+- A new AppArmor contract test boots the image, asks which files under `/run` are
+  executable, and requires the profile to permit every one — so this cannot
+  regress silently. Syntax is checked with `apparmor_parser`.
+
+Protection mode stays on. No deny rule was relaxed.
+
 ## 4.1.0-pilot.5
 
 Fixes an add-on that could not start at all. Every install failed immediately

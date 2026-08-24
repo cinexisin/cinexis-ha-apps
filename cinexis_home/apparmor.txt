@@ -49,7 +49,27 @@ profile cinexis_home flags=(attach_disconnected,mediate_deleted) {
   /bin/**               rix,
   /usr/bin/**           rix,
 
-  # s6 keeps its whole runtime state here (/var/run is a symlink to /run).
+  # s6 does not merely READ its runtime tree — it WRITES executables into it at
+  # startup and then runs them. stage0 generates /run/s6/basedir/bin/init and
+  # execs it, which is what 4.1.0-pilot.5 was denied:
+  #
+  #   stage0: exec: line 87: /run/s6/basedir/bin/init: Permission denied
+  #
+  # `/run/** rwk` grants read, write and lock. It does not grant execute, and
+  # nothing else in this profile covered these paths.
+  #
+  # Home Assistant's own maintained profiles list only `/run/s6/** rwix` — but
+  # they also carry a blanket `file,` rule, which silently covers the rest. This
+  # profile has no `file,` by design, so every tree s6 executes from is named.
+  # Enumerated from a running container rather than guessed: 31 executables
+  # across three roots, one of which carries a random per-boot suffix
+  # (/run/s6-rc:s6-rc-init:XXXXXX). Fixing only the path in the error message
+  # would have moved the failure to the next tree, not removed it.
+  /run/s6/**            rwix,
+  /run/service/**       rwix,
+  /run/s6-rc*/**        rwix,
+
+  # Everything else under /run stays non-executable: state, not code.
   /run/                 rwk,
   /run/**               rwk,
 
