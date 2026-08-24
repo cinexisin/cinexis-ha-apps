@@ -73,7 +73,62 @@ profile cinexis_home flags=(attach_disconnected,mediate_deleted) {
   /run/                 rwk,
   /run/**               rwk,
 
+  # ── TLS: OpenSSL configuration and the CA trust store, read-only ───────────
+  # Node aborts during startup if it cannot READ its OpenSSL config:
+  #
+  #   node: OpenSSL configuration error: BIO_new_file: Permission denied
+  #         calling fopen(/etc/ssl/openssl.cnf, rb)
+  #
+  # /etc/ssl/cert.pem is a SYMLINK to certs/ca-certificates.crt. AppArmor
+  # mediates the RESOLVED path, so permitting the link alone would not have been
+  # enough; the target is covered by the certs rules below. OpenSSL additionally
+  # probes hash-form aliases (/etc/ssl/certs/<8hex>.0) while building a chain —
+  # observed in the trace — so the directory and its contents are readable.
+  #
+  # Read only. Nothing here is writable, and /etc/ssl/private is denied outright:
+  # this app presents no client certificate and terminates no TLS, so it has no
+  # business reading a system private key.
+  /etc/ssl/openssl.cnf   r,
+  /etc/ssl/cert.pem      r,
+  /etc/ssl/certs/        r,
+  /etc/ssl/certs/**      r,
+  deny /etc/ssl/private/** rwklx,
+  deny /etc/ssl/**       w,
+
+  # ── Name resolution ────────────────────────────────────────────────────────
+  # Without these the next failure after TLS is DNS. Enumerated from the same
+  # trace rather than discovered one denial at a time.
+  /etc/resolv.conf       r,
+  /etc/hosts             r,
+  /etc/nsswitch.conf     r,
+  /etc/netsvc.conf       r,
+  /etc/svc.conf          r,
+  /etc/services          r,
+
+  # ── musl loader, locale and time data ──────────────────────────────────────
+  /etc/                  r,
+  /etc/ld-musl-*.path    r,
+  /etc/localtime         r,
+  /usr/share/zoneinfo/   r,
+  /usr/share/zoneinfo/** r,
+  /usr/share/icu/**      r,
+
+  # Node's own shared libraries — libcrypto, libssl, libicu, libcares, brotli,
+  # nghttp2, libstdc++. `m` as well as `r`: they are mapped executable, and `r`
+  # alone fails the mmap.
+  #
+  # Some of these, and the zoneinfo rules above, are probably also granted by
+  # abstractions/base. They are named anyway: `abstractions/base` is the HOST's
+  # file, its contents differ between AppArmor versions, and Home Assistant OS's
+  # copy cannot be inspected from here. Nothing the runtime provably needs is
+  # left depending on a file this repository does not control. The cost is a few
+  # redundant read rules; the alternative cost is another dead release.
+  /lib/**                mr,
+  /usr/lib/**            mr,
+  /usr/local/lib/**      mr,
+
   # ── The application ────────────────────────────────────────────────────────
+  /app/                 r,
   /app/**               r,
   /app/run.sh           rix,
 

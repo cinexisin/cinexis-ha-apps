@@ -1,3 +1,21 @@
+## 4.1.0-pilot.7
+
+pilot.6 completed s6 startup and then Node died:
+
+    node: OpenSSL configuration error: BIO_new_file: Permission denied
+
+The runtime was traced rather than guessed — Node startup, ingress, DNS and one
+HTTPS fetch — and the profile was missing **eight** paths, not one: OpenSSL's
+config, the CA bundle and its symlink target, the certs directory, and the
+resolver files. TLS would have been followed straight away by DNS.
+
+- OpenSSL config and CA trust store readable; `/etc/ssl/cert.pem`'s resolved
+  target and OpenSSL's hash-form probes covered.
+- Resolver, musl loader, locale/timezone and Node's shared libraries permitted.
+- Read-only: `/etc/ssl/**` explicitly non-writable, `/etc/ssl/private/**` denied.
+  No `ssl_keys`, no blanket `file,`.
+- TLS certificate verification stays **enabled** and is asserted by the new test.
+
 ## 4.1.0-pilot.6
 
 pilot.5 started further and then stopped under real AppArmor:
