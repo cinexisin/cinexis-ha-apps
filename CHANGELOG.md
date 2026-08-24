@@ -1,3 +1,22 @@
+## 4.1.0-pilot.5
+
+Fixes an add-on that could not start at all. Every install failed immediately
+with `/bin/sh: can't open '/init': Permission denied`.
+
+The AppArmor profile granted `/init ix` — execute, but not read. `/init` is a
+shell script, so the kernel execs it, reads the shebang and hands the file to
+`/bin/sh`, which then has to read it. That read was denied, so s6-overlay never
+started. The published image was never at fault.
+
+- AppArmor now grants read alongside execute on every path that can hold an
+  interpreted script, and permits the s6-overlay v3 tree (`/command`, `/package`,
+  `/etc/s6-overlay`) and its runtime state under `/run`.
+- Capabilities are unchanged: the base ships `/etc/fix-attrs.d` empty, so nothing
+  changes ownership at startup.
+- The application now starts via an executable `run.sh`, so its mode, shebang and
+  line endings are covered by an automated image contract that boots the
+  container through its real entrypoint and requires a 200 from ingress.
+
 # Changelog
 
 ## 4.0.0 — first zero-configuration release

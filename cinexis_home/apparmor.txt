@@ -5,23 +5,57 @@
 # The narrowest profile of anything we ship, because this is the app that runs in
 # every house all the time. It reads Home Assistant's API, talks outbound to
 # CINEXIS, and writes one private directory.
+#
+# WHY THESE RULES CARRY `r` AND NOT ONLY `ix`
+# -------------------------------------------
+# 4.1.0-pilot.4 failed on every device with:
+#
+#     /bin/sh: can't open '/init': Permission denied
+#
+# `/init ix` grants EXECUTE. It does not grant READ. `/init` is a shell script
+# (`#!/bin/sh -e`), so the kernel execs it, reads the shebang, and then launches
+# `/bin/sh /init` — at which point the interpreter must READ the file it was
+# handed. AppArmor refused the read, and s6 never started.
+#
+# The same trap applies to `/command/with-contenv`, which is also a script
+# (`#!/command/execlineb -S0`). Every path here that can hold an interpreted
+# script therefore carries `r` alongside `ix`. Pure ELF binaries do not need it,
+# but distinguishing them per-file is a maintenance trap for no security gain:
+# read on an executable the profile already permits to run grants nothing extra.
 profile cinexis_home flags=(attach_disconnected,mediate_deleted) {
   #include <abstractions/base>
 
   # No sys_admin, no net_admin, no net_raw, no net_bind_service: it listens on
   # 8099, which is unprivileged, and dials out.
+  #
+  # No chown/fowner either: the base image ships /etc/fix-attrs.d EMPTY, so s6
+  # changes no ownership at startup. Verified against the pinned base rather than
+  # assumed, because these are exactly the capabilities that get added "just in
+  # case" and never removed.
   capability setgid,
   capability setuid,
 
   network inet  stream,
   network inet6 stream,
 
-  /init ix,
-  /bin/** ix,
-  /usr/bin/** ix,
-  /usr/local/bin/node ix,
+  # s6-svscan supervises its children and forwards shutdown.
+  signal (send,receive) set=(kill,term,int,hup,cont,usr1,usr2,alrm,chld),
 
-  /app/** r,
+  # ── s6-overlay v3 ──────────────────────────────────────────────────────────
+  /init                 rix,
+  /command/**           rix,
+  /package/**           rix,
+  /etc/s6-overlay/**    rix,
+  /bin/**               rix,
+  /usr/bin/**           rix,
+
+  # s6 keeps its whole runtime state here (/var/run is a symlink to /run).
+  /run/                 rwk,
+  /run/**               rwk,
+
+  # ── The application ────────────────────────────────────────────────────────
+  /app/**               r,
+  /app/run.sh           rix,
 
   # The ONLY writable location: its own private volume, holding the device key.
   /data/** rwk,

@@ -46,6 +46,7 @@ COPY src/ ./src/
 COPY ui/ ./ui/
 COPY keys/ ./keys/
 COPY package.json ./
+COPY --chmod=0755 run.sh ./run.sh
 
 ENV CINEXIS_CHANNEL=${CINEXIS_CHANNEL}
 ENV INGRESS_PORT=8099
@@ -88,4 +89,4 @@ RUN set -eu; \
 # so an interactive check shows the variables present while the actual service
 # runs without them. The lifecycle harness asserts against the real service
 # process for exactly that reason.
-CMD ["/command/with-contenv", "node", "/app/src/server.js"]
+CMD ["/command/with-contenv", "/app/run.sh"]
