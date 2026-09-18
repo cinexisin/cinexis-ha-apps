@@ -1,0 +1,24 @@
+configuration:
+  admin_number:
+    name: Administrator WhatsApp number
+    description: >-
+      Digits only, with the country code, for example 919876543210. This person
+      manages the bot, receives the daily report and the alerts.
+  bot_name:
+    name: Bot name
+    description: How the bot introduces itself in chat and on its pages.
+  web_user:
+    name: Web UI sign-in name
+    description: The name used to sign in to the add-on's web UI.
+  timezone:
+    name: Timezone
+    description: The site's timezone, for schedules, reports and every time shown.
+  wa_provider:
+    name: Official WhatsApp provider
+    description: >-
+      "none" uses WhatsApp Web (linked on the WhatsApp page) and Telegram.
+      "meta" or "gupshup" adds an official WhatsApp Business provider as well;
+      its credentials go into secrets.yaml, see the documentation.
+  log_level:
+    name: Log detail
+    description: How much the add-on writes to its log. Leave on "info" unless support asks for more.

@@ -1,3 +1,11 @@
+## Cinexis Smart Home Bot 4.1.0
+
+First store release of the bot as an add-on. WhatsApp Web linked by scanning a
+code, Telegram, and the official providers side by side; tap-buttons bound to
+the exact device; door and gate notifications from Home Assistant's own event
+stream; a daily report; cloud and internet watch; plan entitlements; the
+CINEXIS dashboard installed as a package. Details in cinexis_bot/CHANGELOG.md.
+
 ## 4.1.0-pilot.8
 
 The code arrived, verification succeeded, "Almost there" appeared — and five

@@ -38,6 +38,7 @@ fault — please report it.
 
 | Add-on | What it does | Default |
 |---|---|---|
+| **Cinexis Smart Home Bot** | Home automation through WhatsApp and Telegram: chat control with tap-buttons, per-person permissions, door and gate notifications with snapshots, a daily report, the CINEXIS dashboard as a package. | `admin_number` and `bot_name` under Configuration, then link WhatsApp Web or add a Telegram token in its web UI. |
 | **CINEXIS Home** | Connects this Home Assistant to your CINEXIS account: enrolment, status, messaging connectivity | Install this one |
 | **CINEXIS Remote Support** | Lets a CINEXIS engineer help with a problem, for one approved session at a time | **Not published yet** — coming after separate security validation |
 

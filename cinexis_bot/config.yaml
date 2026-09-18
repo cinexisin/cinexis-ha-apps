@@ -1,0 +1,58 @@
+# Store manifest for the Cinexis Smart Home Bot. The source and the release
+# workflow live in cinexisin/cinexis-bot (addons/cinexis-bot); this file must
+# stay in step with that add-on's config.yaml except for the `image:` line.
+name: Cinexis Smart Home Bot
+description: Home automation through WhatsApp and Telegram — devices, scenes, schedules, door and gate notifications, a daily report and the CINEXIS dashboard, all local-first.
+version: "4.1.0"
+slug: cinexis_bot
+url: https://cinexis.cloud/home-assistant
+
+arch:
+  - aarch64
+  - amd64
+
+# A pre-built image per architecture, built by the release workflow from the
+# digest-pinned Home Assistant Debian base, signed and shipped with an SBOM.
+# Nothing is compiled on the customer's device.
+image: "ghcr.io/cinexisin/cinexis-bot-{arch}"
+
+startup: application
+init: false
+boot: auto
+
+# Ingress only: the web UI is served through the Supervisor, which authenticates
+# the Home Assistant user first. No port is opened on the home network.
+ingress: true
+ingress_port: 3000
+panel_icon: mdi:message-processing
+panel_title: Cinexis Bot
+
+homeassistant_api: true
+hassio_api: true
+apparmor: true
+
+# /config is where the bot keeps its database, the WhatsApp Web session and the
+# dashboard package it installs (www/ and the generated dashboard). No /share.
+map:
+  - config:rw
+
+options:
+  admin_number: ""
+  bot_name: "Home Bot"
+  web_user: "admin"
+  timezone: "Asia/Kolkata"
+  wa_provider: "none"
+  log_level: info
+
+schema:
+  admin_number: str
+  bot_name: str
+  web_user: str
+  timezone: str
+  # "none" = WhatsApp Web (linked on the WhatsApp page) and Telegram only;
+  # "meta" / "gupshup" add an official provider, credentials via secrets.yaml.
+  wa_provider: list(meta|gupshup|none)
+  log_level: list(trace|debug|info|warning|error)
+
+# Credentials are never add-on options: the HA token comes from the Supervisor,
+# the web password is set on first run, provider secrets live in secrets.yaml.

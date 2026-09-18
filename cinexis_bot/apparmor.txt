@@ -1,0 +1,103 @@
+#include <tunables/global>
+
+# Cinexis Smart Home Bot add-on (RC test). Enumerated profile, no blanket `file,`.
+# Every interpreted script needs r+ix (s6-overlay v3 execs from /command, /package
+# and /run/s6*; see the CINEXIS Home pilot.5/.6 findings), plus the OpenSSL/DNS
+# read set Node needs for TLS and name resolution.
+profile cinexis_bot flags=(attach_disconnected,mediate_deleted) {
+  #include <abstractions/base>
+
+  capability chown,
+  capability dac_override,
+  capability fowner,
+  capability setgid,
+  capability setuid,
+  capability kill,
+  signal (send,receive) set=(kill,term,int,hup,cont,usr1,usr2,alrm,chld),
+
+  network inet  stream,
+  network inet  dgram,
+  network inet6 stream,
+  network inet6 dgram,
+
+  # s6-overlay v3 boot chain: read + execute, including what it writes into /run
+  /init                 rix,
+  /command/**           rix,
+  /package/**           rix,
+  /etc/s6-overlay/**    rix,
+  /bin/**               rix,
+  /usr/bin/**           rix,
+  /usr/local/bin/**     rix,
+  /usr/lib/bashio/      r,
+  /usr/lib/bashio/**    rix,
+  /run.sh               rix,
+  /run/s6/**            rwix,
+  /run/service/**       rwix,
+  /run/s6-rc*/**        rwix,
+  /run/                 rwk,
+  /run/**               rwk,
+
+  # libraries (glibc, node, ffmpeg, sqlite, cairo stack, native .node modules)
+  /lib/**               mr,
+  /lib64/**             mr,
+  /usr/lib/**           mr,
+  /usr/lib64/**         mr,
+  /usr/local/lib/**     mr,
+  /etc/ld.so.cache      r,
+  /etc/ld.so.conf       r,
+  /etc/ld.so.conf.d/    r,
+  /etc/ld.so.conf.d/**  r,
+
+  # TLS + DNS + time + text data
+  /etc/ssl/openssl.cnf   r,
+  /etc/ssl/cert.pem      r,
+  /etc/ssl/certs/        r,
+  /etc/ssl/certs/**      r,
+  deny /etc/ssl/private/** rwklx,
+  deny /etc/ssl/**       w,
+  /etc/resolv.conf       r,
+  /etc/hosts             r,
+  /etc/nsswitch.conf     r,
+  /etc/services          r,
+  /etc/                  r,
+  /etc/localtime         r,
+  /etc/timezone          r,
+  /usr/share/zoneinfo/   r,
+  /usr/share/zoneinfo/** r,
+  /usr/share/icu/**      r,
+  /usr/share/ca-certificates/** r,
+
+  # devices node and ffmpeg touch
+  /dev/null              rw,
+  /dev/zero              r,
+  /dev/urandom           r,
+  /dev/random            r,
+  /dev/tty               rw,
+  /dev/shm/              rw,
+  /dev/shm/**            rwk,
+
+  # the application
+  /app/                  r,
+  /app/**                r,
+  /app/node_modules/**/*.node m,
+  /data/                 rw,
+  /data/**               rwk,
+  /config/               rw,
+  /config/**             rwk,
+  /tmp/                  rw,
+  /tmp/**                rwk,
+  /var/tmp/              rw,
+  /var/tmp/**            rwk,
+  @{PROC}/@{pid}/**      r,
+  @{PROC}/sys/kernel/random/uuid r,
+  @{PROC}/sys/kernel/random/boot_id r,
+  /sys/fs/cgroup/**      r,
+  /sys/devices/system/cpu/** r,
+
+  # never again
+  deny /usr/bin/chromium* rwklx,
+  deny /usr/bin/google-chrome* rwklx,
+  deny /var/run/docker.sock rwklx,
+  deny /run/docker.sock rwklx,
+  deny /share/** rwklx,
+}
