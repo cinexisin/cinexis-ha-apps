@@ -1,5 +1,23 @@
 # Changelog
 
+## 4.2.0 — 18 September 2026
+
+The lock. Published images no longer contain readable code, and a licence
+belongs to one box.
+
+- Every server module ships as V8 bytecode, sealed under a per-version release
+  key. The loader obtains the key for this box from cinexis.cloud at first
+  start, in exchange for the licence key, and caches it wrapped for this box
+  so later starts are offline. Nothing decrypted touches the disk.
+- First start shows an activation page on the add-on's own panel: enter the
+  licence key, done. The licence text is one tap away.
+- One licence, one box. The box is identified by its primary network hardware
+  address. A second box is refused and the attempt is logged; CINEXIS or a
+  dealer releases the binding to move a licence.
+- The dashboard generator ships as Python bytecode.
+- A proprietary licence text ships with the add-on.
+- Local builds (the office) are unchanged and open.
+
 ## 4.1.0 — 18 September 2026
 
 The first store release of the consolidated add-on.

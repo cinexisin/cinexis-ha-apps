@@ -1,3 +1,12 @@
+## Cinexis Smart Home Bot 4.2.0
+
+The lock. Published images hold no readable code: every server module ships
+as V8 bytecode sealed under a per-version key that cinexis.cloud hands to the
+box at activation. First start shows an activation page on the add-on's
+panel. One licence, one box: the licence binds to the box's network hardware
+address, a second box is refused, and CINEXIS releases a binding to move it.
+Licence terms ship with the add-on. Details in cinexis_bot/CHANGELOG.md.
+
 ## Cinexis Smart Home Bot 4.1.0
 
 First store release of the bot as an add-on. WhatsApp Web linked by scanning a

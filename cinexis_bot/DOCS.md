@@ -17,7 +17,7 @@ Home automation through WhatsApp and Telegram. The add-on runs inside your Home 
 
 1. Add the CINEXIS repository to the add-on store: `https://github.com/cinexisin/cinexis-ha-apps`.
 2. Install **Cinexis Smart Home Bot** and start it. Open its web UI from the add-on page.
-3. In the web UI, set the bot name and administrator number under Settings, then link WhatsApp Web on the WhatsApp page and add your Telegram bot token under Settings. Either channel is enough to begin.
+3. Enter your licence key on the activation page, then in the web UI set the bot name and administrator number under Settings, link WhatsApp Web on the WhatsApp page and add your Telegram bot token under Settings. Either channel is enough to begin.
 4. Add people under Users and give them devices under Commands → Device Permissions.
 
 ## Options
@@ -55,9 +55,15 @@ Point the provider's webhook at the add-on's public address. Every inbound reque
 
 WhatsApp Web uses the same connection as WhatsApp on a laptop, which WhatsApp does not offer for automation. A number that sends a lot of automated messages can be blocked. Link a number you can afford to lose, keep replies to people who wrote first, and keep an official provider configured as the fallback. The session survives restarts; Unlink on the WhatsApp page removes it.
 
-## Licence
+## Activation and licence
 
-Every site gets three days of every local capability, then the Lite set, until a licence key from cinexis.cloud is entered under Settings → Licence. A licence unlocks the capabilities of its plan; when it lapses, cloud-backed features pause and everything local keeps running. A gate applies to using or creating a feature, never to what is already running.
+The first start asks for your licence key on the add-on's own page: open the add-on from the Home Assistant sidebar, enter the key from your CINEXIS order or console, and the bot starts. That needs the internet once. From then on the add-on starts on its own, online or not.
+
+A licence belongs to one box. The box is identified by its primary network hardware address, which the add-on reads from Home Assistant. A second box that tries the same key is refused and the attempt is recorded. To move a licence to a new box, ask CINEXIS support or your dealer to release it; the next activation binds it again.
+
+A licence unlocks the capabilities of its plan. When it lapses, cloud-backed features pause and everything local keeps running. A gate applies to using or creating a feature, never to what is already running. After an update, the first start needs the internet once more for the new version's key.
+
+The add-on is delivered as a sealed image; the licence terms shipped with it apply.
 
 ## Upgrading from 3.x
 
