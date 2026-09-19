@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.2.1 — 19 September 2026
+
+- Automations: a new "What changed" step remembers every device, waits a few seconds, then names exactly which lights or devices turned on or off. Made for door and gate rules that trigger Home Assistant automations.
+- Automations: the Test button works under ingress again.
+
+
 ## 4.2.0 — 18 September 2026
 
 The lock. Published images no longer contain readable code, and a licence

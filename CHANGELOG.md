@@ -1,3 +1,7 @@
+## Cinexis Smart Home Bot 4.2.1
+
+Automations gain a "What changed" step that names exactly which lights or devices switched after an event, and the Test button works under ingress. Details in cinexis_bot/CHANGELOG.md.
+
 ## Cinexis Smart Home Bot 4.2.0
 
 The lock. Published images hold no readable code: every server module ships
