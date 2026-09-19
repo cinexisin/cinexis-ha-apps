@@ -1,6 +1,6 @@
-# CINEXIS Home — Private Pilot
+# CINEXIS apps for Home Assistant
 
-Home Assistant add-ons for CINEXIS customers.
+Home Assistant add-ons published by CINEXIS: the Smart Home Bot and CINEXIS Home.
 
 > **This is a CINEXIS custom repository. It is not part of the official Home
 > Assistant add-on store, and nothing here is endorsed or reviewed by the Home
@@ -19,15 +19,22 @@ is fully supported and not a workaround:
 1. In Home Assistant, open **Settings → Add-ons → Add-on Store**.
 2. Open the **⋮** menu (top right) and choose **Repositories**.
 3. Paste `https://github.com/cinexisin/cinexis-ha-apps` and select **Add**.
-4. Close the dialog. **CINEXIS Home** appears in the store.
+4. Close the dialog. **Cinexis Smart Home Bot** and **CINEXIS Home** appear in the store.
 
-Then install **CINEXIS Home**, start it, enable **Show in sidebar**, and open it.
-It will ask for your email address and nothing else.
+**Cinexis Smart Home Bot:** install it, start it, and open it from the sidebar.
+The first screen asks for your licence key from your CINEXIS order or console.
+Enter it once; the bot starts and keeps starting on its own after that, online
+or not. One licence unlocks one box. To move a licence to another box, ask
+CINEXIS support or your dealer to release it. The licence terms ship with the
+add-on and are one tap away on that screen.
+
+**CINEXIS Home:** install it, start it, enable **Show in sidebar**, and open it.
+It asks for your email address and nothing else.
 
 ## What you are asked for
 
-Your email address, and the six-digit code we send to it. That is the whole
-configuration.
+For the bot, your licence key. For CINEXIS Home, your email address and the
+six-digit code we send to it. That is the whole configuration.
 
 You are never asked for a web address, an IP address, a port, a token, a node
 identifier, a tunnel setting, a Docker command, a registry login, or which
@@ -61,7 +68,8 @@ features pause; local control does not.
 ## Architectures
 
 `aarch64` and `amd64`. Images are pre-built and published to GitHub Container
-Registry, so **nothing is compiled on your device**.
+Registry, so **nothing is compiled on your device**. The Smart Home Bot images
+ship their code sealed; they are unlocked on your box by your licence.
 
 32-bit ARM (`armv7`, `armhf`) and `i386` are not supported.
 

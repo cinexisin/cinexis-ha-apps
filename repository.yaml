@@ -7,6 +7,6 @@
 # documentation only. The application itself is a signed, pre-built image
 # referenced by digest — no backend source, no credentials, no device identities,
 # and nothing a customer's device has to compile.
-name: CINEXIS Home
+name: CINEXIS
 url: https://cinexis.cloud/home-assistant
 maintainer: CINEXIS <support@cinexis.cloud>
