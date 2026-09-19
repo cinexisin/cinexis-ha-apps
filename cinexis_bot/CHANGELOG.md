@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.2.3 — 19 September 2026
+
+- Cloud WhatsApp: CINEXIS support can operate the home through the hub as an admin without being a user on the box (Settings → Cloud WhatsApp → CINEXIS support access, on by default, switch it off to keep the home to your own users). Support actions appear in Activity as "cinexis:<number>".
+
 ## 4.2.2 — 19 September 2026
 
 - WhatsApp Web: commands and live locations no longer take a minute to land. The bridge now answers WhatsApp's "resend that message" requests (a cache of what it sent plus a retry counter), so a phone whose keys drifted gets the message instead of waiting. When the keys are genuinely out of step the WhatsApp page says so and asks for a re-link, instead of the log filling with encryption dumps.
