@@ -1,8 +1,8 @@
 # Changelog
 
-## 4.2.6 — 20 September 2026
+## 4.2.7 — 20 September 2026
 
-- Automations page: the Test, Edit and On/Off buttons work again in the store (locked) image. The page's browser script was being compiled like server code since 4.2.0, so the browser received an unreadable stub; it now ships as a browser asset.
+- Automations page: the Test, Edit and On/Off buttons work again in the store (locked) image. The page's browser script was being compiled like server code since 4.2.0, so the browser received an empty stub; it now ships as a browser asset in every image stage, and the release check fails if it is missing. (4.2.6 fixed only the open image.)
 
 ## 4.2.5 — 20 September 2026
 
