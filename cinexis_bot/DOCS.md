@@ -55,6 +55,24 @@ Point the provider's webhook at the add-on's public address. Every inbound reque
 
 WhatsApp Web uses the same connection as WhatsApp on a laptop, which WhatsApp does not offer for automation. A number that sends a lot of automated messages can be blocked. Link a number you can afford to lose, keep replies to people who wrote first, and keep an official provider configured as the fallback. The session survives restarts; Unlink on the WhatsApp page removes it.
 
+## Cloud WhatsApp
+
+Cloud WhatsApp lets the people you choose control this home from CINEXIS's official WhatsApp number, with no phone linked here and no port opened on your router. It is included with Smart and above.
+
+How it works: the add-on opens one outbound connection to the CINEXIS cloud and keeps it open. A message to the CINEXIS number from a granted user is passed down that connection, runs on this box under that user's own permissions (allow, approval, location, block), and the answer goes back the same way. Menus arrive as tap-lists, replies carry buttons, cameras arrive as photos, and plain sentences are understood. If the box is offline the user is told so at once.
+
+Setting it up:
+
+1. Settings → **CINEXIS Cloud WhatsApp** → On, then Save. The card shows *connected* within a few seconds, with the site code the CINEXIS number knows this home by.
+2. Users → **Cloud WhatsApp** column → switch On for each person who may use the CINEXIS number. Everyone is Off until you do; a number that is not granted gets a "not linked to a home" reply there and nothing else. Granting takes effect immediately.
+3. Give them the number. They send *hi* or *menu* to it and their home answers.
+
+Notifications through the CINEXIS number: by default the box uses it only when no WhatsApp is linked here (fallback). Choose *Always* to send every WhatsApp notification through it as well, or *Never* to keep notifications local. A message to someone who has not written to the CINEXIS number in the last 24 hours goes as an approved template, per WhatsApp's rules.
+
+CINEXIS support access: on by default, the switch on the same card lets CINEXIS support operate this home through the cloud as an admin, for help and diagnosis. Support actions show in Activity as "cinexis:<number>". Switch it off and only your granted users can reach the home.
+
+Nothing on this box depends on the cloud. If the connection drops, local control, the linked WhatsApp, Telegram and every rule keep working, and the link reconnects on its own.
+
 ## Activation and licence
 
 The first start asks for your licence key on the add-on's own page: open the add-on from the Home Assistant sidebar, enter the key from your CINEXIS order or console, and the bot starts. That needs the internet once. From then on the add-on starts on its own, online or not.
