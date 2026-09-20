@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.2.5 — 20 September 2026
+
+- WhatsApp page: fixed a script error introduced in 4.2.2 that left the page on "Checking…" with no Link button, so WhatsApp Web could not be linked or re-linked. A test now parses every page script the add-on serves.
+
 ## 4.2.4 — 19 September 2026
 
 - Cloud WhatsApp: a per-user grant on the Users page ("Cloud WhatsApp" column, off for everyone by default). Only granted users are known to the CINEXIS number; everyone else gets a "not linked" reply there. The box refuses a hub command from an ungranted number even if the hub forwards one.
