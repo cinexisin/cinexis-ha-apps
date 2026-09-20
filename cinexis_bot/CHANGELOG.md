@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.2.6 — 20 September 2026
+
+- Automations page: the Test, Edit and On/Off buttons work again in the store (locked) image. The page's browser script was being compiled like server code since 4.2.0, so the browser received an unreadable stub; it now ships as a browser asset.
+
 ## 4.2.5 — 20 September 2026
 
 - WhatsApp page: fixed a script error introduced in 4.2.2 that left the page on "Checking…" with no Link button, so WhatsApp Web could not be linked or re-linked. A test now parses every page script the add-on serves.
