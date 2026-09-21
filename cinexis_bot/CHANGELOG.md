@@ -1,5 +1,10 @@
 # Changelog
 
+## 4.2.8 — 21 September 2026
+
+- WhatsApp Web: messages reach the recipient's phone at once instead of waiting until WhatsApp is opened. The bridge now announces itself as available and signals "typing" before every send, which is what makes the recipient's phone fetch and push the message.
+- Automations: every camera in a rule is grabbed at the same moment the rule fires, in parallel; only the WhatsApp uploads stay one after another. A four-camera gate alert no longer waits for each camera in turn.
+
 ## 4.2.7 — 20 September 2026
 
 - Automations page: the Test, Edit and On/Off buttons work again in the store (locked) image. The page's browser script was being compiled like server code since 4.2.0, so the browser received an empty stub; it now ships as a browser asset in every image stage, and the release check fails if it is missing. (4.2.6 fixed only the open image.)
