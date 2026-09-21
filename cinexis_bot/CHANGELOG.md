@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.2.10 — 21 September 2026
+
+- Home Assistant integration: the CINEXIS services (cinexis.trigger, send, snapshot, report, notify and notify.cinexis) now reach the add-on from Home Assistant Core, so existing automations that call them work against this add-on. A photo saved by an automation (notify.cinexis with data.file) is sent as a photo; the older send fields (targets, camera_entity_id) are accepted.
+
 ## 4.2.9 — 21 September 2026
 
 - Photos: a new Settings card, "Photos sent by the bot". Choose the size photos are sent at (800, 1024 or 1600 px on the longest side, or the original frame; default 1024, about 90 KB instead of 200+ KB), how long they stay in the chat (removed automatically after 30 minutes to 2 days on the linked WhatsApp and on Telegram), and WhatsApp view-once (gone after it is opened, never saved to the gallery). Retractions survive a restart.
