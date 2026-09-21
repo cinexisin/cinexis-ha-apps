@@ -1,5 +1,10 @@
 # Changelog
 
+## 4.2.12 — 21 September 2026
+
+### Changed
+- **"What changed" step lists one device per line.** The On / Off (and Turned on / Turned off) read-outs now put each light on its own bulleted line under a counted heading instead of a comma run, so a ten-light door report reads as a column on the phone. Devices the automation names but Home Assistant no longer has are listed the same way under "Not found".
+
 ## 4.2.11 — 21 September 2026
 
 - Automations: the "What changed" step can now follow a Home Assistant automation. Name the automation (for example the one that lights the door lights) and the step reads its turn-on/turn-off devices live from Home Assistant, waits, and reports the state of exactly those devices: On (n): …, Off (n): …. A fixed list of devices works too. The old behaviour, every device of a kind and only what switched, remains the default.

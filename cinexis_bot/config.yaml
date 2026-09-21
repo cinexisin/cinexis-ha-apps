@@ -3,7 +3,7 @@
 # stay in step with that add-on's config.yaml except for the `image:` line.
 name: Cinexis Smart Home Bot
 description: Home automation through WhatsApp and Telegram — devices, scenes, schedules, door and gate notifications, a daily report and the CINEXIS dashboard, all local-first.
-version: "4.2.11"
+version: "4.2.12"
 slug: cinexis_bot
 url: https://cinexis.cloud/home-assistant
 
