@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.2.11 — 21 September 2026
+
+- Automations: the "What changed" step can now follow a Home Assistant automation. Name the automation (for example the one that lights the door lights) and the step reads its turn-on/turn-off devices live from Home Assistant, waits, and reports the state of exactly those devices: On (n): …, Off (n): …. A fixed list of devices works too. The old behaviour, every device of a kind and only what switched, remains the default.
+
 ## 4.2.10 — 21 September 2026
 
 - Home Assistant integration: the CINEXIS services (cinexis.trigger, send, snapshot, report, notify and notify.cinexis) now reach the add-on from Home Assistant Core, so existing automations that call them work against this add-on. A photo saved by an automation (notify.cinexis with data.file) is sent as a photo; the older send fields (targets, camera_entity_id) are accepted.
