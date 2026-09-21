@@ -1,5 +1,10 @@
 # Changelog
 
+## 4.2.13 — 21 September 2026
+
+### Changed
+- **"What changed" prints one device per line, old-bot style.** Each assigned device is its own line: state dot, a glyph for the kind of device, then the name (🟢 💡 LIVING LIGHT / 🔴 🔌 BOARD AC), in the automation's own order. No On/Off groups, no counts. A device the automation names but Home Assistant no longer has shows as ⚠️ with "(not found)".
+
 ## 4.2.12 — 21 September 2026
 
 ### Changed
