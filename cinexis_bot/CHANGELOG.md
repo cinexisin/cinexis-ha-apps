@@ -1,5 +1,10 @@
 # Changelog
 
+## 4.2.9 — 21 September 2026
+
+- Photos: a new Settings card, "Photos sent by the bot". Choose the size photos are sent at (800, 1024 or 1600 px on the longest side, or the original frame; default 1024, about 90 KB instead of 200+ KB), how long they stay in the chat (removed automatically after 30 minutes to 2 days on the linked WhatsApp and on Telegram), and WhatsApp view-once (gone after it is opened, never saved to the gallery). Retractions survive a restart.
+- WhatsApp Web: the log no longer fills with libsignal traces when a receipt cannot be decrypted; they are counted and reported once a minute like the rest.
+
 ## 4.2.8 — 21 September 2026
 
 - WhatsApp Web: messages reach the recipient's phone at once instead of waiting until WhatsApp is opened. The bridge now announces itself as available and signals "typing" before every send, which is what makes the recipient's phone fetch and push the message.

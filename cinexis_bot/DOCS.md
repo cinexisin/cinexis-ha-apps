@@ -55,6 +55,10 @@ Point the provider's webhook at the add-on's public address. Every inbound reque
 
 WhatsApp Web uses the same connection as WhatsApp on a laptop, which WhatsApp does not offer for automation. A number that sends a lot of automated messages can be blocked. Link a number you can afford to lose, keep replies to people who wrote first, and keep an official provider configured as the fallback. The session survives restarts; Unlink on the WhatsApp page removes it.
 
+## Photos sent by the bot
+
+Camera snapshots fill a phone fast. Settings → **Photos sent by the bot** sets how big they are sent (800, 1024 or 1600 px on the longest side, or the original frame; 1024 is the default and about 90 KB), how long they stay in the chat (removed automatically after 30 minutes to 2 days on the linked WhatsApp and on Telegram), and WhatsApp view-once (gone after it is opened, never saved to the gallery). Removal works on the linked WhatsApp and on Telegram; photos sent through an official WhatsApp provider or the CINEXIS number cannot be recalled, so size is the lever there. On the phone, WhatsApp → Settings → Storage and data → Media visibility off keeps photos out of the gallery.
+
 ## Cloud WhatsApp
 
 Cloud WhatsApp lets the people you choose control this home from CINEXIS's official WhatsApp number, with no phone linked here and no port opened on your router. It is included with Smart and above.
