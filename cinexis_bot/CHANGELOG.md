@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+## 4.3.2 — 22 September 2026
+
+- Startup logs now confirm that the administrator recipient and box identity are ready without printing phone numbers, network hardware addresses, host names or box identifiers. Activation and licence binding are unchanged.
+- Add-on startup no longer attempts a developer-only local speech worker when that optional worker is not installed. Home Assistant speech-to-text and configured cloud transcription continue unchanged, and a failed optional worker no longer leaves a two-minute wait.
+
 ## 4.3.1 — 22 September 2026
 
 - Supervisor logs now keep safe event types, statuses, counts and timings without recording message text, credentials, recipient or sender identifiers, device/entity identifiers, camera or face details, raw provider responses, or WhatsApp session material.
