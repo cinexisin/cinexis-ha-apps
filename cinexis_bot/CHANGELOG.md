@@ -1,5 +1,36 @@
 # Changelog
 
+## Unreleased
+
+## 4.3.1 — 22 September 2026
+
+- Supervisor logs now keep safe event types, statuses, counts and timings without recording message text, credentials, recipient or sender identifiers, device/entity identifiers, camera or face details, raw provider responses, or WhatsApp session material.
+- Scheduled automation reports now resume when switched back on, without requiring a restart or edit. Timings use the configured home timezone (including the Home Assistant add-on setting), obsolete timers are removed, and invalid schedules are rejected before saving. Existing device-report wording and recipient permissions are unchanged.
+- Add several devices, camera snapshots or scenes to an automation using a searchable, name-first picker. Choose on/off/toggle, review the order and set gaps in milliseconds or seconds; individual gaps and actions stay editable. New camera batches capture at each step. Existing rules keep their timing and capture behaviour until you edit them.
+- Updated the underlying XML parser to stable Expat 2.8.4 with upstream security fixes while preserving both system library interfaces. Saved automations and notification behaviour are unchanged.
+- Updated FFmpeg to stable 8.0.3 with security corrections for voice notes and camera snapshots. Existing codecs and protocols, including legacy HLS, are preserved and checked; build tools stay out of the runtime.
+- Included two upstream audio-parser corrections while preserving existing audio formats and the system library interface.
+- Updated the underlying sandbox utility to address unsafe path handling while preserving its installed non-setuid mode.
+- Hardened the underlying JSON library to correctly handle escaped device-data keys, reject over-deep patch results, and avoid repeated work in nested comparisons. Automation settings and notification wording are unchanged.
+- Required Ubuntu's security-fixed GLib library in new add-on builds. This updates an underlying system library without changing screens, saved settings or notification behaviour.
+- Replaced affected system file utilities with Ubuntu's security-updated GNU utilities. File permissions, saved settings and notification behaviour are preserved.
+- Preserved native face-recognition calculations on Node 24 using a narrowly checked upstream TensorFlow compatibility fix. Face recognition remains optional and unverified on real hardware; ARM64 availability is unchanged.
+- Fixed PDF usage reports without adding a browser engine or an internet dependency. Reports retain device, room, daily and hourly views, include exact data as an attachment, wrap long names, and bundle fonts for Tamil, Kannada and Hindi labels. Usage is clearly described as time on, not electricity consumption.
+- Updated the add-on runtime to maintained Node 24 LTS and its SQLite binding. Existing settings and databases are preserved; every locked release is rebuilt for the exact runtime on each architecture.
+- Updated the add-on's Linux base to Ubuntu 26.04 LTS for newer system libraries, with isolated voice-conversion and camera-stream compatibility checks. Saved settings and notification behaviour are unchanged.
+- Fixed an ARM64 startup failure caused by a WhatsApp Web library dependency being available only through the optional face-recognition packages. The dependency now installs on every supported architecture.
+- Existing what-changed reports no longer report unrelated whole-home devices when a named automation cannot be resolved. Unknown or unavailable readings show a warning instead of looking off. Valid on/off device rows keep their existing format.
+- Automations and Notifications share a detailed device-update editor, selected-device filters and a read-only, per-recipient preview. New report configurations are checked before saving; channel choices never grant access or bypass saved preferences.
+- Opt-in device details can report current states or observed on/off changes for a chosen device list or a resolvable Home Assistant automation. Reports respect selected people, device permissions and delivery preferences; missing/unavailable readings are never shown as off. Existing report steps are not silently converted.
+- Automation notifications now honour WhatsApp, Telegram or Both for every trigger and step, within each selected person's saved delivery preferences. A missing selected channel never falls back to another channel.
+- Automation alerts now send to WhatsApp and Telegram at the same time, so Telegram does not wait behind a slow WhatsApp send. Messages stay in order on each channel, and each step finishes before the next one starts.
+- See message text and camera captions update as you type in the automation editor, without sending an alert. The preview explains empty messages, camera-name captions and literal `{name}` text before you save.
+- Automations now flag missing saved cameras, devices and scenes, and show the rule and step to review. Offline Home Assistant data is marked as incomplete instead of claiming devices were deleted. Editing a rule keeps its saved selections until you choose a replacement.
+- **Set up a home alert in everyday language.** Choose a door opening, a door left open, or movement; select your real sensor and the people to tell; then review the exact message before turning it on. The guide checks your selected devices again before saving, supports an optional Home Assistant camera, and sends no test messages during setup. Existing automations and delivery preferences stay unchanged.
+- **Turning an automation off also stops its waiting work.** Disabling, deleting or editing a rule cancels its pending reminders and remaining steps. Turning it back on starts with future triggers; it does not revive an old reminder. Messages or device actions already handed to another service cannot be recalled.
+- **See what needs a look at home.** The overview now lists open or moving entrances, unavailable device states, and how many automations are on or off. It shows when Home Assistant was last checked and stops presenting old readings as current when the connection fails. This is read-only: it never switches devices or sends messages.
+- Updated web request parsing and archive dependencies to address published security advisories, without changing the Express major version or notification behaviour.
+
 ## 4.2.13 — 21 September 2026
 
 ### Changed
