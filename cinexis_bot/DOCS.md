@@ -22,6 +22,89 @@ Home automation through WhatsApp and Telegram. The add-on runs inside your Home 
 
 ## Options
 
+### Bulk action picker
+
+In an automation, choose **+ Devices**, **+ Cameras** or **+ Scenes**. Search by name,
+filter by kind, then select one item or several (up to 25 in a batch). Technical
+IDs are available under a disclosure, not required as input. Device batches can
+turn on, turn off or toggle; camera batches take snapshots; scene batches run
+existing saved scenes. The picker never executes or sends anything.
+
+Review **Execution order**, move items up/down, and set **Gap between items** in
+milliseconds or seconds. A gap may be 0–300,000 whole milliseconds (0–300 seconds).
+Zero means sequential actions with no extra wait, not simultaneous execution.
+The gap starts after the preceding action and its notifications finish. Device
+responses, provider pacing and delivery add time; millisecond input does not
+promise real-time precision. **Add to steps** adds an editable action sequence;
+change each action or gap independently before saving. New batches must fit
+within 50 total steps, including gaps. No existing rule is trimmed or migrated.
+
+New camera batches select **Capture when this step runs**: each camera is fetched
+after earlier steps and their delays, then its frame is shared across the rule's
+recipients. Existing snapshots keep their trigger-time, parallel capture unless
+you explicitly change that checkbox. Captions, photo policy, selected channels
+and saved delivery preferences still apply. This does not add new permissions
+to legacy photos/actions or change their recipient rules. Only the existing
+administrator editor can configure these actions; no new public endpoint exists.
+
+Disabling, deleting or editing a rule cancels waiting gaps and remaining steps;
+already submitted actions or messages cannot be recalled. Missing saved devices
+are kept until you choose a replacement. An empty picker is not proof of deletion:
+check the Home Assistant connection and configuration, then refresh.
+
+### Detailed automation notifications
+
+Existing rules are not automatically converted.
+
+Scheduled rules use the home timezone displayed in their editor. The saved
+timezone takes precedence; otherwise the Home Assistant add-on timezone applies,
+with Asia/Kolkata as the default. Restart after changing the add-on timezone.
+Review existing scheduled wall-clock times before upgrading: earlier versions
+relied on the container timezone instead. Expressions and recipients are preserved.
+Invalid cron expressions or timezones cannot be saved as an enabled schedule.
+Switching a scheduled rule back on registers its next run without a restart;
+missed runs while disabled/offline are not replayed. Scheduled current-state
+reports are readings at that time, not a history of all changes since the last run.
+
+In **Automations**, choose **Device notification**, or add a **Detailed device
+update** step to a rule. Notifications links to the same editor. Device-state,
+scheduled and manual/HTTP rules all use the same choices:
+
+1. Select one saved person or several, then WhatsApp, Telegram or both. The
+   selection narrows each person's saved delivery preferences; it does not
+   grant device access or fall back to an unselected channel.
+2. Choose devices in the order you want them reported, or choose an HA
+   automation with resolvable entity targets. Area/device/label targets,
+   templates, scripts and scenes require an explicit device list.
+3. Choose current status, currently active/inactive, observed changes or
+   observed on/off transitions. Set a reading delay of 0–120 seconds and choose
+   whether to include the event, reading time (IST) and entity IDs.
+4. Use **Preview permitted recipients — no sending**. It only reads device
+   states; it does not run actions or save the rule. Transition previews show
+   current readings, not predictions. Review, then save deliberately.
+
+Ordinary recipients need explicit device `allow` permission and, for a
+state-triggered report, permission for the triggering sensor. Approval or
+location access alone is not sufficient for unattended readings. Hidden devices
+and temporarily blocked ordinary users are excluded. Preferences and grants are
+checked again before each submission. Remove recipients or disable the rule to
+stop future notifications; already submitted messages cannot be recalled.
+
+“Currently on” is not “turned on because the door opened.” The new report
+baseline starts before the rule's action steps but after any trigger hold. It
+cannot reconstruct earlier changes or prove their cause. Unknown/unavailable
+readings show warnings. An unresolved automation never expands to the whole
+home. Legacy what-changed steps also receive the no-fallback and unavailable
+state safety fixes, but retain their old sampling point and recipient rules.
+Custom messages, photos and legacy reports do not acquire the new report ACLs.
+
+For the office door rule, the literal “Main door opened” step is independent
+of the device report. Keep or remove it intentionally; review the report source
+and mode before changing the live rule. Do not synthesize a real door sensor
+state. No live rule is changed by this documentation.
+
+### Add-on configuration
+
 | Option | Meaning |
 |---|---|
 | `admin_number` | The administrator's WhatsApp number, digits only with country code. |
