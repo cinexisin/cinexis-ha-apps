@@ -1,6 +1,17 @@
 # Changelog
 
-## Unreleased
+## 4.3.3 — 24 September 2026
+
+- Automation send counts now exclude refused or failed submissions, including camera-caption fallbacks. The Test button says when work is only queued; neither queued work nor a submitted message is presented as confirmed delivery.
+
+- Automation command steps now wait for their result before continuing, send the returned text on the selected channels, and catch asynchronous failures. Cancelling a rule prevents subsequent replies and steps; it cannot recall an action already started.
+
+- Local WhatsApp diagnostics can now distinguish late-arriving messages, time spent handling commands, and time spent submitting replies. Timing lines contain no message text or phone numbers and do not claim that a reply was delivered. Pairing and command behaviour are unchanged.
+- WhatsApp Web now requests a read receipt for an incoming command after successfully submitting a reply. Failed or ignored replies are not marked read, other chats are untouched, and existing WhatsApp read-receipt privacy settings still apply.
+- Sending `menu` now opens the same command guide as `help`, instead of falling through to an unrecognised-command reply. Existing access restrictions, custom-command precedence and device controls are unchanged.
+- Device clarification replies now reject invalid numbers without operating any devices. Number ranges include every selected item, and repeated selections operate each device only once. Existing device permissions remain in force.
+
+Phone-side “Waiting for this message” remains under investigation. These changes do not reset pairing or claim to repair encrypted messages that a phone cannot read.
 
 ## 4.3.2 — 22 September 2026
 
