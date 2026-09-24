@@ -4,6 +4,15 @@ Home automation through WhatsApp and Telegram. The add-on runs inside your Home 
 
 ## What it does
 
+**Automation delivery status:** Test queues a rule; it does not confirm that
+the rule finished or that a phone displayed a message. HTTP trigger responses
+retain `ok`, `sent` and `queued`, with `sent: 0` at acknowledgement and a separate
+`queued_steps` count. Direct send/notify responses and completion logs count
+only transport-accepted submissions in `sent`; `ok` describes request handling,
+not successful delivery to every recipient. A camera-caption fallback counts
+as text only if accepted, not as a delivered photo. None of these counts proves
+phone-side decryption or reading.
+
 - **Chat control.** "living light on", "ac 24", "gate camera", "lights" for a numbered list. On Telegram, and on WhatsApp through an official provider, replies carry tap-buttons: turn off, all on, just this one.
 - **Three messaging transports, side by side.** WhatsApp Web, linked by scanning a code on the WhatsApp page, using this site's own number with no per-message cost; Telegram, standard on every site; and an official WhatsApp provider, Meta Cloud API or Gupshup, as the fallback. Whichever carried a message, the same permissions apply.
 - **People and permissions.** Each person is allowed, needs approval, or is blocked per device; time windows, guest invites with expiry, live-location checks for the gate.
@@ -137,6 +146,13 @@ Point the provider's webhook at the add-on's public address. Every inbound reque
 ## WhatsApp Web
 
 WhatsApp Web uses the same connection as WhatsApp on a laptop, which WhatsApp does not offer for automation. A number that sends a lot of automated messages can be blocked. Link a number you can afford to lose, keep replies to people who wrote first, and keep an official provider configured as the fallback. The session survives restarts; Unlink on the WhatsApp page removes it.
+
+After the bot successfully submits a reply, it requests a read receipt for that
+incoming command only. Ignored commands and failed reply submissions are not
+marked read. Your WhatsApp read-receipt privacy settings still apply, so blue
+ticks are not guaranteed. A failed read receipt does not delay another reply.
+This feature does not repair a reply that shows “Waiting for this message”;
+successful submission is not proof that the receiving phone decrypted it.
 
 ## Photos sent by the bot
 
