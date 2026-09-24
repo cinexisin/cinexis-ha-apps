@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.3.5 — 24 September 2026
+
+- Restored release builds after an upstream package index changed, while retaining the exact reviewed XML library source and security checks. Version 4.3.4 was not published.
+
+- WhatsApp Web command replies now preserve the conversation's original hidden identity instead of converting it to a phone-number destination. User permissions still use the existing phone-number identity. This correction covers text, choices, images and document replies; read-after-reply behaviour is unchanged. Phone delivery and the bot phone's chat history still require live acceptance testing.
+
 ## 4.3.3 — 24 September 2026
 
 - Automation send counts now exclude refused or failed submissions, including camera-caption fallbacks. The Test button says when work is only queued; neither queued work nor a submitted message is presented as confirmed delivery.
