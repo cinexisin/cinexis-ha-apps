@@ -154,6 +154,22 @@ ticks are not guaranteed. A failed read receipt does not delay another reply.
 This feature does not repair a reply that shows “Waiting for this message”;
 successful submission is not proof that the receiving phone decrypted it.
 
+### Hidden-identity command replies
+
+When WhatsApp supplies a hidden (`@lid`) conversation identity, command replies
+use that original identity on the wire. The resolved phone number remains the
+user/permission key; an unmapped hidden identity is still ignored. This applies
+only to the individual incoming command's replies, including choices, images
+and documents. It does not redirect other users' alerts or create a persistent
+phone-to-hidden-identity routing override. Official providers are unchanged.
+
+A successful submission or read receipt is not proof that every linked device
+displayed a reply. Test several consecutive commands on the recipient phone,
+the personal Web session and the bot's primary phone before accepting a fix.
+Older WhatsApp Web library versions have reported differences in how a bot
+phone mirrors hidden-identity chats. Re-pairing is not a permanent remedy for
+an address-handling defect, and deleting session keys repeatedly is not supported.
+
 ## Photos sent by the bot
 
 Camera snapshots fill a phone fast. Settings → **Photos sent by the bot** sets how big they are sent (800, 1024 or 1600 px on the longest side, or the original frame; 1024 is the default and about 90 KB), how long they stay in the chat (removed automatically after 30 minutes to 2 days on the linked WhatsApp and on Telegram), and WhatsApp view-once (gone after it is opened, never saved to the gallery). Removal works on the linked WhatsApp and on Telegram; photos sent through an official WhatsApp provider or the CINEXIS number cannot be recalled, so size is the lever there. On the phone, WhatsApp → Settings → Storage and data → Media visibility off keeps photos out of the gallery.
