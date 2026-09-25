@@ -1,5 +1,12 @@
 # Changelog
 
+## 4.3.6 — 25 September 2026
+
+- Linked WhatsApp chat cleanup now has separate controls for bot text/menus/alerts, all sent images/files/media, and answered commands on the bot account. Choose Keep or 30 minutes to 24 hours; new installations default to 24 hours. Existing installations keep text/commands and preserve their previous photo setting until explicitly changed. Cleanup survives restarts, targets individual messages and shows failed/expired work. It never clears old chat history or removes incoming commands from the customer phone; saved gallery copies cannot be reliably removed.
+- An explicit WhatsApp media cleanup choice replaces the older WhatsApp photo expiry, cancels its pending requests, and covers images, snapshots, PDF reports, documents and other sent attachments. Keep cancels queued cleanup. The latest successful WhatsApp reply-address handling and read-after-reply behavior are preserved; Telegram and official-provider delivery are unchanged.
+- Photo expiry choices now stop at 24 hours to leave retry time inside platform deletion limits. An existing two-day setting is shown as needing a supported choice before saving, not silently migrated. Cleanup is best effort, not proof that every phone or backup has removed a copy.
+- Read-after-reply diagnostics now report whether the read-receipt request returned, failed or is taking time, without logging message text or phone numbers.
+
 ## 4.3.5 — 24 September 2026
 
 - Restored release builds after an upstream package index changed, while retaining the exact reviewed XML library source and security checks. Version 4.3.4 was not published.

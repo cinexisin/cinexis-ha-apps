@@ -154,6 +154,57 @@ ticks are not guaranteed. A failed read receipt does not delay another reply.
 This feature does not repair a reply that shows “Waiting for this message”;
 successful submission is not proof that the receiving phone decrypted it.
 
+## WhatsApp chat cleanup
+
+Settings → **WhatsApp chat cleanup** has three separate controls:
+
+- Bot text replies, menus and alerts.
+- Bot images, snapshots, PDF reports, documents and other sent media/attachments,
+  including captions. View-once media may disappear sooner.
+- Answered incoming commands on the linked bot account only.
+
+Each offers **Keep**, **30 minutes**, **1 hour**, **3 hours**, **12 hours** or
+**24 hours**, measured from sending, not reading. New installations default to
+24 hours. Upgraded sites keep text/commands and retain their earlier Photos
+policy until their administrator explicitly changes them. Saving cleanup
+requires acknowledging that deletion cannot be undone. Only newly sent messages
+and newly answered commands are queued; old conversations are never swept.
+
+Outgoing messages and media use delete-for-everyone. Incoming commands use delete-for-me on
+the bot account only: the customer phone retains its copy. WhatsApp privacy
+settings still govern read receipts. Official-provider/cloud copies cannot be
+retracted. An explicit media choice replaces the previous WhatsApp photo expiry
+and cancels pending requests in that older queue; this does not change Telegram.
+Local database retention is
+also a separate setting, not evidence that phone messages were deleted.
+
+The queue stores message identifiers and timestamps, not message bodies, and
+is tied to the linked account. It survives restarts, checks each minute while
+connected, and retries failed submissions with bounded attempts. A different
+linked account cannot process its predecessor's queue. Keep messages cancels
+pending deletions of that kind; changing to another expiry affects future
+messages. Failed/expired items remain visible as needing attention. A submitted
+delete request does not prove removal from every device, backup or screenshot.
+Photos/files already saved outside the chat or forwarded elsewhere may remain.
+Cleanup and read receipts do not repair a phone-side “Waiting for this message”.
+
+### Supported deletion window
+
+WhatsApp permits a delete-for-everyone request for about two days after sending;
+Telegram bot deletion must occur before 48 hours. Our new cleanup choices stop
+at 24 hours to leave retry time. WhatsApp work older than 47 hours is marked
+expired without sending another request. An outage beyond the window can leave
+messages in the chat; Keep cannot restore messages already deleted.
+
+WhatsApp also offers its own disappearing-message timers of 24 hours, 7 days or
+90 days. That is a separate chat setting, affects future messages, and is not
+changed by these bot controls. In particular, a bot-account-only cleanup cannot
+erase the incoming command from the sender phone.
+
+Official limits: [WhatsApp deletion](https://faq.whatsapp.com/1370476507114859/),
+[WhatsApp disappearing messages](https://faq.whatsapp.com/673193694148537),
+[Telegram bot deletion](https://core.telegram.org/bots/api#deletemessage).
+
 ### Hidden-identity command replies
 
 When WhatsApp supplies a hidden (`@lid`) conversation identity, command replies
@@ -172,7 +223,17 @@ an address-handling defect, and deleting session keys repeatedly is not supporte
 
 ## Photos sent by the bot
 
-Camera snapshots fill a phone fast. Settings → **Photos sent by the bot** sets how big they are sent (800, 1024 or 1600 px on the longest side, or the original frame; 1024 is the default and about 90 KB), how long they stay in the chat (removed automatically after 30 minutes to 2 days on the linked WhatsApp and on Telegram), and WhatsApp view-once (gone after it is opened, never saved to the gallery). Removal works on the linked WhatsApp and on Telegram; photos sent through an official WhatsApp provider or the CINEXIS number cannot be recalled, so size is the lever there. On the phone, WhatsApp → Settings → Storage and data → Media visibility off keeps photos out of the gallery.
+Camera snapshots fill a phone fast. Settings → **Photos sent by the bot** sets
+their size (800, 1024 or 1600 px on the longest side, or the original frame;
+1024 is the default), photo expiry of 30 minutes to 24 hours or Keep, and
+WhatsApp view-once. Photo expiry applies to Telegram and to WhatsApp only while
+its media choice is **Use existing Photos policy**. Once you choose an explicit
+WhatsApp media expiry or Keep, the chat cleanup control governs all sent media
+instead; size and view-once settings still apply. Existing two-day photo expiry
+is not silently changed, but must be replaced with a supported choice before
+saving photo settings. Official-provider and CINEXIS cloud copies cannot be
+recalled. Gallery copies may remain; use WhatsApp media-visibility and storage
+settings on the phone to control existing downloads.
 
 ## Cloud WhatsApp
 
