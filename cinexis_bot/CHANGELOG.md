@@ -1,5 +1,10 @@
 # Changelog
 
+## 4.3.7 — 25 September 2026
+
+- WhatsApp Web alerts, images and documents can reuse the hidden conversation address observed in a recent direct message, so background alerts do not switch back to a phone-number address between command replies. Routing hints are bounded, reset on reconnect and never change user permissions or pairing. Conflicting mappings are not reused. This addresses a routing inconsistency; mobile decryption still requires real-phone acceptance and is not certified fixed by local tests.
+- Timed photo cleanup retains the original message destination even across restarts. Existing cleanup choices and older history are unchanged.
+
 ## 4.3.6 — 25 September 2026
 
 - Linked WhatsApp chat cleanup now has separate controls for bot text/menus/alerts, all sent images/files/media, and answered commands on the bot account. Choose Keep or 30 minutes to 24 hours; new installations default to 24 hours. Existing installations keep text/commands and preserve their previous photo setting until explicitly changed. Cleanup survives restarts, targets individual messages and shows failed/expired work. It never clears old chat history or removes incoming commands from the customer phone; saved gallery copies cannot be reliably removed.
