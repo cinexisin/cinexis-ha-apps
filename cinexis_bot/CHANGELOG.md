@@ -1,5 +1,10 @@
 # Changelog
 
+## 4.3.8 — 25 September 2026
+
+- Turn lights, switches and fans on or off using their exact displayed name, including numbered names such as `studio lights 1 off` or `turn off studio lights 1`. Device names and aliases are matched before room-wide guesses or brightness values, without AI. Duplicate names ask you to choose; an unrecognised number on a matching light name does not switch the whole room. Existing permissions, approval, location and access-hour checks remain in force.
+- Updated the underlying regular-expression library to stable PCRE2 10.48 to correct a memory-ownership defect. Messaging, saved automations, permissions and device controls are unchanged. The release still requires native validation and the existing security gates.
+
 ## 4.3.7 — 25 September 2026
 
 - WhatsApp Web alerts, images and documents can reuse the hidden conversation address observed in a recent direct message, so background alerts do not switch back to a phone-number address between command replies. Routing hints are bounded, reset on reconnect and never change user permissions or pairing. Conflicting mappings are not reused. This addresses a routing inconsistency; mobile decryption still requires real-phone acceptance and is not certified fixed by local tests.
