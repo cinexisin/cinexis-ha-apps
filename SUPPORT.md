@@ -2,7 +2,7 @@
 
 ## Getting help
 
-Email **support@cinexis.cloud**, or reply to any CINEXIS message.
+Email **hello@thalirone.com**, or reply to any Thalir message.
 
 **Never send a password, a verification code, a recovery code or a device secret
 to anyone, including us.** We will not ask for them.
@@ -18,7 +18,7 @@ to anyone, including us.** We will not ask for them.
 
 ## Status of this repository
 
-This is a **private pilot**. It is a CINEXIS custom repository, installable
+This is a **private pilot**. It is a Thalir custom repository, installable
 directly in Home Assistant. It is not in the official Home Assistant add-on
 store and has not been reviewed by the Home Assistant project.
 
@@ -46,4 +46,4 @@ produced the image you are running.
 
 Cloud features pause. **Local Home Assistant control does not.** Lights, scenes,
 automations and local alerts keep working, because they never depended on
-CINEXIS.
+Thalir.

@@ -1,10 +1,11 @@
-# AGENTS.md — CINEXIS add-on store
+# AGENTS.md — Thalir add-on store
 
 This repository is the Home Assistant add-on store that customers add to their
-Home Assistant. **It contains no source code.** It carries manifests, icons and
-customer-facing documentation; the add-on images themselves are built from
-`cinexisin/cinexis-bot` and published to GHCR, and the manifest here points at
-them by version.
+Home Assistant. It carries the manifests, icons and customer-facing
+documentation for both add-ons. The Thalir Smart Home Bot's images are built
+from the private `cinexisin/cinexis-bot` repository and the manifest here points
+at them by version. The Thalir Home add-on's own source lives in
+`cinexis_home/`, and this repository's workflow builds it.
 
 This repository is **public**. Anything committed here is world-readable,
 forever. Check twice before adding a file.
@@ -36,6 +37,16 @@ the image exists and every customer's Home Assistant shows a broken update.
 The changelog is shown to the customer on the Update card inside Home
 Assistant. Write it for them: what changed for their home, not what changed in
 the code.
+
+## Brand
+
+The customer-facing name is **Thalir** (Thalir Innovations, thalirone.com,
+hello@thalirone.com). The owner's rule: the old brand name never appears in
+anything public, and this whole repository is public. Only the original Thalir
+logo is used, never redrawn or recoloured, on light grounds. Identifiers that
+installed boxes depend on keep their names: the folder and slug names
+`cinexis_bot` and `cinexis_home`, image names under `ghcr.io/cinexisin/`, and
+this repository's own address, which customers have already added.
 
 ## Rules
 

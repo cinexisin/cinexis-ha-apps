@@ -1,23 +1,23 @@
-## Cinexis Smart Home Bot 4.2.1
+## Thalir Smart Home Bot 4.2.1
 
 Automations gain a "What changed" step that names exactly which lights or devices switched after an event, and the Test button works under ingress. Details in cinexis_bot/CHANGELOG.md.
 
-## Cinexis Smart Home Bot 4.2.0
+## Thalir Smart Home Bot 4.2.0
 
 The lock. Published images hold no readable code: every server module ships
 as V8 bytecode sealed under a per-version key that cinexis.cloud hands to the
 box at activation. First start shows an activation page on the add-on's
 panel. One licence, one box: the licence binds to the box's network hardware
-address, a second box is refused, and CINEXIS releases a binding to move it.
+address, a second box is refused, and Thalir releases a binding to move it.
 Licence terms ship with the add-on. Details in cinexis_bot/CHANGELOG.md.
 
-## Cinexis Smart Home Bot 4.1.0
+## Thalir Smart Home Bot 4.1.0
 
 First store release of the bot as an add-on. WhatsApp Web linked by scanning a
 code, Telegram, and the official providers side by side; tap-buttons bound to
 the exact device; door and gate notifications from Home Assistant's own event
 stream; a daily report; cloud and internet watch; plan entitlements; the
-CINEXIS dashboard installed as a package. Details in cinexis_bot/CHANGELOG.md.
+Thalir dashboard installed as a package. Details in cinexis_bot/CHANGELOG.md.
 
 ## 4.1.0-pilot.8
 
@@ -35,7 +35,7 @@ the same five-second beat.
   preserved across it.
 - "Check again" is removed. It called the same endpoint that caused the reset,
   and a genuine session-bound status endpoint does not exist yet. The screen now
-  explains that CINEXIS links the home and that you start again once it has.
+  explains that Thalir links the home and that you start again once it has.
 
 ## 4.1.0-pilot.7
 
@@ -135,7 +135,7 @@ own version.
 
 **Known pilot limitation.** This build requests the `stable` bootstrap channel,
 and the stable endpoint is not configured yet. Until it is, the add-on installs,
-starts and runs, and reports "CINEXIS is temporarily unavailable" rather than
+starts and runs, and reports "Thalir is temporarily unavailable" rather than
 connecting. That is the intended fail-closed behaviour: the add-on will not
 accept an unverified configuration. Local Home Assistant control is unaffected.
 
@@ -148,18 +148,18 @@ Owner-test release. The first build an owner can install and enrol with.
   the image — the previous build would have asked a domain we do not control
   where to connect.
 * **Stable channel is live.** `4.1.0-pilot.3` requested the stable bootstrap and
-  the endpoint did not exist, so the add-on installed and then reported CINEXIS
+  the endpoint did not exist, so the add-on installed and then reported Thalir
   unavailable. It now resolves to a signed document at
   `https://go.cinexis.cloud`, verified against the public key in this image.
 * **One-click installation page** at `https://go.cinexis.cloud`, with the manual
   repository route documented just as prominently.
 * **Support, privacy and security contacts** now under `cinexis.cloud`.
 * **Remote Support** is described accurately: not published, coming after
-  separate security validation. It is not bundled into CINEXIS Home.
+  separate security validation. It is not bundled into Thalir Home.
 
 Unchanged: ingress only, no published port, no `/config` or `/share` mount, no
 Docker socket, no Supervisor add-on management, no tunnel client, and zero
-dependencies. Local Home Assistant control is unaffected by anything CINEXIS
+dependencies. Local Home Assistant control is unaffected by anything Thalir
 does or fails to do.
 
 `4.1.0-pilot.3` is not modified. A released tag is never rebuilt or moved.

@@ -1,6 +1,6 @@
 # Privacy
 
-## What this add-on sends to CINEXIS
+## What this add-on sends to Thalir
 
 * Your email address, to identify your account, and the code we email back.
 * A **public** key this add-on generates on your device.
@@ -32,26 +32,26 @@ enrolment, including on success.
 
 ## Where it is stored
 
-Your account and subscription records are held on CINEXIS servers. The device
+Your account and subscription records are held on Thalir servers. The device
 key stays on your device, in the add-on's private storage, readable only by the
 add-on.
 
 ## Retention and deletion
 
-Ask us at **privacy@cinexis.cloud** to see, correct or delete what we hold. Removing
+Ask us at **hello@thalirone.com** to see, correct or delete what we hold. Removing
 the add-on and asking us to revoke the device ends the connection immediately;
 local Home Assistant operation is unaffected.
 
 ## Remote Support
 
 The separate Remote Support add-on is not installed by default and never
-installs itself. When you approve a session, a CINEXIS engineer can reach your
+installs itself. When you approve a session, a Thalir engineer can reach your
 Home Assistant for a limited window that you can end at any time. Sessions are
 recorded in an append-only audit log. Nothing happens without your approval for
 that specific session.
 
 ## Third parties
 
-Payment is handled by our payment provider; CINEXIS does not receive or store
+Payment is handled by our payment provider; Thalir does not receive or store
 your card details. No analytics, advertising or tracking script runs in this
 add-on's interface.
