@@ -3,8 +3,8 @@
 ## 4.4.0 — 4 October 2026
 
 - **This add-on is now the Thalir Smart Home Bot.** Its name in the store and the Home Assistant sidebar, every screen, chat reply, alert, report and document now say Thalir, and the screens use the original Thalir mark and colours. Nothing to do on your side: saved automations, the `cinexis.trigger` and `notify.cinexis` services, your secrets and your licence keep working exactly as before.
-- **The round clock dashboard is now the Thalir dashboard,** installed with one click from the Dashboard page. Once installed, later add-on updates refresh it on their own, unless you change it in Home Assistant, in which case it is left as you made it and the page says so. A dashboard installed by an earlier version moves to the new Thalir dashboard when you press **Install or update** on the Dashboard page once; the old copy is then removed. Updating the add-on alone does not move it, because an earlier version kept no record of whether you had changed it.
-- The Home Assistant integration shows as Thalir Smart Home Bot. A setup that still has the old default title is renamed; a title you chose yourself is kept.
+- **The round clock dashboard is now the Thalir dashboard,** installed with one click from the Dashboard page. Once installed, later add-on updates refresh it on their own, unless you change it in Home Assistant, in which case it is left as you made it and the page says so. A dashboard installed by an earlier version moves to the new Thalir dashboard on its own with this update, and the old copy is removed. If you had changed that earlier copy in Home Assistant, it is left as it is until you press **Install or update** on the Dashboard page.
+- The Home Assistant integration shows as Thalir Smart Home Bot once you run its install command again from the Help page and restart Home Assistant. A setup that still has the old default title is renamed; a title you chose yourself is kept. The Help page now shows the command with this add-on's address inside Home Assistant, because the address it used to show no longer works.
 
 ## 4.3.9 — 4 October 2026
 
