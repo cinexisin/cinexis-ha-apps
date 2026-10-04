@@ -2,7 +2,7 @@
 
 ## Reporting a vulnerability
 
-Email **security@cinexis.cloud** with enough detail to reproduce the issue. If you
+Email **hello@thalirone.com** with enough detail to reproduce the issue. If you
 would rather not use email, open a GitHub security advisory on this repository.
 
 Please include what you did, what happened, and what you expected. A proof of
@@ -28,7 +28,7 @@ issue before it is described publicly.
 ## Scope
 
 **In scope:** the add-ons published in this repository, the images they resolve
-to, the enrolment and activation flow, and the way this add-on talks to CINEXIS.
+to, the enrolment and activation flow, and the way this add-on talks to Thalir.
 
 **Out of scope:** Home Assistant itself (report those to the Home Assistant
 project), findings that require physical access to an already-trusted device,
@@ -45,7 +45,7 @@ and reports produced only by an automated scanner with no demonstrated impact.
 * **Ingress only.** No port is published to your home network.
 * **Instructions are verified before they are trusted.** The add-on checks an
   Ed25519 signature on the configuration it receives. A document that does not
-  verify is discarded and the app reports that CINEXIS is unavailable — it never
+  verify is discarded and the app reports that Thalir is unavailable — it never
   falls back to an unverified endpoint.
 * **The device key never leaves the device.** Enrolment sends a public key.
 * **No shared fleet credential exists.** Every device has its own identity, and

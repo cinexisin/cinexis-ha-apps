@@ -1,6 +1,6 @@
-# Cinexis Smart Home Bot — Home Assistant add-on
+# Thalir Smart Home Bot — Home Assistant add-on
 
-Home automation through WhatsApp and Telegram. The add-on runs inside your Home Assistant, talks to your devices locally, and lets the people you choose control the home from the chat apps they already use. Everything that matters keeps working when the internet or the CINEXIS cloud is away.
+Home automation through WhatsApp and Telegram. The add-on runs inside your Home Assistant, talks to your devices locally, and lets the people you choose control the home from the chat apps they already use. Everything that matters keeps working when the internet or the Thalir cloud is away.
 
 ## What it does
 
@@ -19,13 +19,13 @@ phone-side decryption or reading.
 - **Notifications.** Rules on the Automations page fire on a device's state, with a hold time, a message and a camera snapshot, to a list of numbers and chats. The add-on listens to Home Assistant's own event stream, so no automation is needed.
 - **Schedules, scenes, rooms, timers, broadcast, voice notes** with local or cloud transcription.
 - **Daily report.** Yesterday's device use, the busiest hour and who asked for what, to the administrator every morning, with a PDF.
-- **Dashboard.** The CINEXIS round dashboard, generated for this site from its rooms and devices and installed as a package from the Dashboard page.
-- **Watchfulness.** The administrator hears when the CINEXIS cloud is unreachable, or when the site's internet was down, and when either is back.
+- **Dashboard.** The Thalir round home dashboard, generated for this site from its rooms and devices and installed with one click from the Dashboard page. Later add-on updates refresh it on their own, unless you change it in Home Assistant.
+- **Watchfulness.** The administrator hears when the Thalir cloud is unreachable, or when the site's internet was down, and when either is back.
 
 ## Installation
 
-1. Add the CINEXIS repository to the add-on store: `https://github.com/cinexisin/cinexis-ha-apps`.
-2. Install **Cinexis Smart Home Bot** and start it. Open its web UI from the add-on page.
+1. Add the Thalir repository to the add-on store: `https://github.com/cinexisin/cinexis-ha-apps`.
+2. Install **Thalir Smart Home Bot** and start it. Open its web UI from the add-on page.
 3. Enter your licence key on the activation page, then in the web UI set the bot name and administrator number under Settings, link WhatsApp Web on the WhatsApp page and add your Telegram bot token under Settings. Either channel is enough to begin.
 4. Add people under Users and give them devices under Commands → Device Permissions.
 
@@ -266,33 +266,33 @@ its media choice is **Use existing Photos policy**. Once you choose an explicit
 WhatsApp media expiry or Keep, the chat cleanup control governs all sent media
 instead; size and view-once settings still apply. Existing two-day photo expiry
 is not silently changed, but must be replaced with a supported choice before
-saving photo settings. Official-provider and CINEXIS cloud copies cannot be
+saving photo settings. Official-provider and Thalir cloud copies cannot be
 recalled. Gallery copies may remain; use WhatsApp media-visibility and storage
 settings on the phone to control existing downloads.
 
 ## Cloud WhatsApp
 
-Cloud WhatsApp lets the people you choose control this home from CINEXIS's official WhatsApp number, with no phone linked here and no port opened on your router. It is included with Smart and above.
+Cloud WhatsApp lets the people you choose control this home from Thalir's official WhatsApp number, with no phone linked here and no port opened on your router. It is included with Smart and above.
 
-How it works: the add-on opens one outbound connection to the CINEXIS cloud and keeps it open. A message to the CINEXIS number from a granted user is passed down that connection, runs on this box under that user's own permissions (allow, approval, location, block), and the answer goes back the same way. Menus arrive as tap-lists, replies carry buttons, cameras arrive as photos, and plain sentences are understood. If the box is offline the user is told so at once.
+How it works: the add-on opens one outbound connection to the Thalir cloud and keeps it open. A message to the Thalir number from a granted user is passed down that connection, runs on this box under that user's own permissions (allow, approval, location, block), and the answer goes back the same way. Menus arrive as tap-lists, replies carry buttons, cameras arrive as photos, and plain sentences are understood. If the box is offline the user is told so at once.
 
 Setting it up:
 
-1. Settings → **CINEXIS Cloud WhatsApp** → On, then Save. The card shows *connected* within a few seconds, with the site code the CINEXIS number knows this home by.
-2. Users → **Cloud WhatsApp** column → switch On for each person who may use the CINEXIS number. Everyone is Off until you do; a number that is not granted gets a "not linked to a home" reply there and nothing else. Granting takes effect immediately.
+1. Settings → **Thalir Cloud WhatsApp** → On, then Save. The card shows *connected* within a few seconds, with the site code the Thalir number knows this home by.
+2. Users → **Cloud WhatsApp** column → switch On for each person who may use the Thalir number. Everyone is Off until you do; a number that is not granted gets a "not linked to a home" reply there and nothing else. Granting takes effect immediately.
 3. Give them the number. They send *hi* or *menu* to it and their home answers.
 
-Notifications through the CINEXIS number: by default the box uses it only when no WhatsApp is linked here (fallback). Choose *Always* to send every WhatsApp notification through it as well, or *Never* to keep notifications local. A message to someone who has not written to the CINEXIS number in the last 24 hours goes as an approved template, per WhatsApp's rules.
+Notifications through the Thalir number: by default the box uses it only when no WhatsApp is linked here (fallback). Choose *Always* to send every WhatsApp notification through it as well, or *Never* to keep notifications local. A message to someone who has not written to the Thalir number in the last 24 hours goes as an approved template, per WhatsApp's rules.
 
-CINEXIS support access: on by default, the switch on the same card lets CINEXIS support operate this home through the cloud as an admin, for help and diagnosis. Support actions show in Activity as "cinexis:<number>". Switch it off and only your granted users can reach the home.
+Thalir support access: on by default, the switch on the same card lets Thalir support operate this home through the cloud as an admin, for help and diagnosis. Support actions show in Activity as "support:<number>". Switch it off and only your granted users can reach the home.
 
 Nothing on this box depends on the cloud. If the connection drops, local control, the linked WhatsApp, Telegram and every rule keep working, and the link reconnects on its own.
 
 ## Activation and licence
 
-The first start asks for your licence key on the add-on's own page: open the add-on from the Home Assistant sidebar, enter the key from your CINEXIS order or console, and the bot starts. That needs the internet once. From then on the add-on starts on its own, online or not.
+The first start asks for your licence key on the add-on's own page: open the add-on from the Home Assistant sidebar, enter the key from your Thalir order or console, and the bot starts. That needs the internet once. From then on the add-on starts on its own, online or not.
 
-A licence belongs to one box. The box is identified by its primary network hardware address, which the add-on reads from Home Assistant. A second box that tries the same key is refused and the attempt is recorded. To move a licence to a new box, ask CINEXIS support or your dealer to release it; the next activation binds it again.
+A licence belongs to one box. The box is identified by its primary network hardware address, which the add-on reads from Home Assistant. A second box that tries the same key is refused and the attempt is recorded. To move a licence to a new box, ask Thalir support or your dealer to release it; the next activation binds it again.
 
 A licence unlocks the capabilities of its plan. When it lapses, cloud-backed features pause and everything local keeps running. A gate applies to using or creating a feature, never to what is already running. After an update, the first start needs the internet once more for the new version's key.
 

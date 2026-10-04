@@ -1,11 +1,11 @@
-# Store manifest for the Cinexis Smart Home Bot. The source and the release
+# Store manifest for the Thalir Smart Home Bot. The source and the release
 # workflow live in cinexisin/cinexis-bot (addons/cinexis-bot); this file must
 # stay in step with that add-on's config.yaml except for the `image:` line.
-name: Cinexis Smart Home Bot
-description: Home automation through WhatsApp and Telegram — devices, scenes, schedules, door and gate notifications, a daily report and the CINEXIS dashboard, all local-first.
-version: "4.3.9"
+name: Thalir Smart Home Bot
+description: Home automation through WhatsApp and Telegram — devices, scenes, schedules, door and gate notifications, a daily report and the Thalir home dashboard, all local-first.
+version: "4.4.0"
 slug: cinexis_bot
-url: https://cinexis.cloud/home-assistant
+url: https://thalirone.com
 
 arch:
   - aarch64
@@ -25,7 +25,7 @@ boot: auto
 ingress: true
 ingress_port: 3000
 panel_icon: mdi:message-processing
-panel_title: Cinexis Bot
+panel_title: Thalir Bot
 
 homeassistant_api: true
 hassio_api: true

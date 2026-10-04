@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.4.0 — 4 October 2026
+
+- **This add-on is now the Thalir Smart Home Bot.** Its name in the store and the Home Assistant sidebar, every screen, chat reply, alert, report and document now say Thalir, and the screens use the original Thalir mark and colours. Nothing to do on your side: saved automations, the `cinexis.trigger` and `notify.cinexis` services, your secrets and your licence keep working exactly as before.
+- **The round clock dashboard is now the Thalir dashboard,** installed with one click from the Dashboard page. Once installed, later add-on updates refresh it on their own, unless you change it in Home Assistant, in which case it is left as you made it and the page says so. A dashboard installed by an earlier version moves to the new Thalir dashboard on its own with this update, and the old copy is removed. If you had changed that earlier copy in Home Assistant, it is left as it is until you press **Install or update** on the Dashboard page.
+- The Home Assistant integration shows as Thalir Smart Home Bot once you run its install command again from the Help page and restart Home Assistant. A setup that still has the old default title is renamed; a title you chose yourself is kept. The Help page now shows the command with this add-on's address inside Home Assistant, because the address it used to show no longer works.
+
 ## 4.3.9 — 4 October 2026
 
 - Patched the bundled X rendering library, which the image-resizing and face-recognition components load, against a recently published advisory, using the fix its developers published ahead of their next release. The add-on never connects to an X display, so this closes a theoretical risk rather than an active one. Messaging, device control, permissions and saved automations are unchanged.
@@ -93,7 +99,7 @@ Phone-side “Waiting for this message” remains under investigation. These cha
 
 ## 4.2.10 — 21 September 2026
 
-- Home Assistant integration: the CINEXIS services (cinexis.trigger, send, snapshot, report, notify and notify.cinexis) now reach the add-on from Home Assistant Core, so existing automations that call them work against this add-on. A photo saved by an automation (notify.cinexis with data.file) is sent as a photo; the older send fields (targets, camera_entity_id) are accepted.
+- Home Assistant integration: the integration services (cinexis.trigger, send, snapshot, report, notify and notify.cinexis) now reach the add-on from Home Assistant Core, so existing automations that call them work against this add-on. A photo saved by an automation (notify.cinexis with data.file) is sent as a photo; the older send fields (targets, camera_entity_id) are accepted.
 
 ## 4.2.9 — 21 September 2026
 
@@ -115,11 +121,11 @@ Phone-side “Waiting for this message” remains under investigation. These cha
 
 ## 4.2.4 — 19 September 2026
 
-- Cloud WhatsApp: a per-user grant on the Users page ("Cloud WhatsApp" column, off for everyone by default). Only granted users are known to the CINEXIS number; everyone else gets a "not linked" reply there. The box refuses a hub command from an ungranted number even if the hub forwards one.
+- Cloud WhatsApp: a per-user grant on the Users page ("Cloud WhatsApp" column, off for everyone by default). Only granted users are known to the Thalir number; everyone else gets a "not linked" reply there. The box refuses a hub command from an ungranted number even if the hub forwards one.
 
 ## 4.2.3 — 19 September 2026
 
-- Cloud WhatsApp: CINEXIS support can operate the home through the hub as an admin without being a user on the box (Settings → Cloud WhatsApp → CINEXIS support access, on by default, switch it off to keep the home to your own users). Support actions appear in Activity as "cinexis:<number>".
+- Cloud WhatsApp: Thalir support can operate the home through the hub as an admin without being a user on the box (Settings → Cloud WhatsApp → Thalir support access, on by default, switch it off to keep the home to your own users). Support actions are recorded in Activity with the support number.
 
 ## 4.2.2 — 19 September 2026
 
@@ -127,7 +133,7 @@ Phone-side “Waiting for this message” remains under investigation. These cha
 - WhatsApp Web: the log no longer prints a session dump for every failed decrypt; one line a minute counts them.
 - Sending: photos and messages from a rule go out ~1 s apart instead of up to 3 s, so a four-camera gate alert arrives in seconds.
 - Log lines carry the time of day.
-- Cloud WhatsApp (CINEXIS Hub): a new Settings card lets a home be served from CINEXIS's official WhatsApp number through an outbound link; off by default, needs the hub live.
+- Cloud WhatsApp (the hub): a new Settings card lets a home be served from Thalir's official WhatsApp number through an outbound link; off by default, needs the hub live.
 
 ## 4.2.1 — 19 September 2026
 
@@ -141,13 +147,13 @@ The lock. Published images no longer contain readable code, and a licence
 belongs to one box.
 
 - Every server module ships as V8 bytecode, sealed under a per-version release
-  key. The loader obtains the key for this box from cinexis.cloud at first
+  key. The loader obtains the key for this box from the licence service at first
   start, in exchange for the licence key, and caches it wrapped for this box
   so later starts are offline. Nothing decrypted touches the disk.
 - First start shows an activation page on the add-on's own panel: enter the
   licence key, done. The licence text is one tap away.
 - One licence, one box. The box is identified by its primary network hardware
-  address. A second box is refused and the attempt is logged; CINEXIS or a
+  address. A second box is refused and the attempt is logged; Thalir or a
   dealer releases the binding to move a licence.
 - The dashboard generator ships as Python bytecode.
 - A proprietary licence text ships with the add-on.
@@ -163,7 +169,7 @@ The first store release of the consolidated add-on.
 - A bare device name answers with its state; a shared name lists the devices with their state; a pending question never swallows a command.
 - Rules fire on Home Assistant state changes inside the add-on: door and gate notifications with snapshots to many numbers, no automation needed.
 - A daily report to the administrator at 08:00 site time, with a digest and a PDF; Analytics and Reports are open on every site.
-- Cloud watch: the administrator hears when CINEXIS cloud or the site's internet is gone and when it is back.
-- Entitlements from the CINEXIS plan registry: trial, active, grace, expired; gates by capability; limits at creation; local features never depend on a licence.
-- The CINEXIS round dashboard ships in the add-on and installs as a package from the Dashboard page.
+- Cloud watch: the administrator hears when Thalir cloud or the site's internet is gone and when it is back.
+- Entitlements from the Thalir plan registry: trial, active, grace, expired; gates by capability; limits at creation; local features never depend on a licence.
+- The Thalir round dashboard ships in the add-on and installs as a package from the Dashboard page.
 - Fixed: the process no longer stops five minutes after start when no WhatsApp provider is configured; a fresh site can create rules; the design shows by default regardless of a theme saved by the old interface.

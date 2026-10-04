@@ -1,8 +1,8 @@
-# Cinexis Smart Home Bot Licence
+# Thalir Smart Home Bot Licence
 
-<!-- Note to CINEXIS: have this licence reviewed by a lawyer before relying on it commercially. -->
+<!-- Note to Thalir Innovations: have this licence reviewed by a lawyer before relying on it commercially. -->
 
-This licence is an agreement between you and CINEXIS, a company based in Bengaluru, India. It covers your use of the Cinexis Smart Home Bot, a Home Assistant add-on. The add-on brings chat control over WhatsApp and Telegram, notifications, a daily report, a dashboard package, and cloud-backed services to your home.
+This licence is an agreement between you and Thalir Innovations, based in Bengaluru, India. It covers your use of the Thalir Smart Home Bot, a Home Assistant add-on. The add-on brings chat control over WhatsApp and Telegram, notifications, a daily report, a dashboard package, and cloud-backed services to your home.
 
 **1. Acceptance**
 
@@ -10,15 +10,15 @@ You accept this licence when you activate a licence key, install the software, o
 
 **2. What the Software Does**
 
-Cinexis Smart Home Bot gives you chat control of your home over WhatsApp and Telegram. It sends notifications, builds a daily report, and installs a dashboard package. Some features depend on cloud-backed services from cinexis.cloud, including licence activation, AI, voice, and remote access.
+Thalir Smart Home Bot gives you chat control of your home over WhatsApp and Telegram. It sends notifications, builds a daily report, and installs a dashboard package. Some features depend on cloud-backed services run by Thalir Innovations, including licence activation, AI, voice, and remote access.
 
 **3. Licence Grant**
 
-CINEXIS grants you a licence to install and run the software on one physical box. You may back up the software image and your data for that box. You may let household members and guests use the software through the chat channels. A dealer may install and configure the software on your behalf, under your licence.
+Thalir Innovations grants you a licence to install and run the software on one physical box. You may back up the software image and your data for that box. You may let household members and guests use the software through the chat channels. A dealer may install and configure the software on your behalf, under your licence.
 
 **4. Activation and Device Binding**
 
-The software ships as a sealed, pre-built container image. You unlock it by activating a licence key against cinexis.cloud. Activation binds your licence key to one physical box, identified by its network hardware address and machine id. This binding keeps each licence key tied to a single box. You may not run one licence key on more than one box. To move your licence to a different box, ask CINEXIS or an authorised dealer to release the existing binding.
+The software ships as a sealed, pre-built container image. You unlock it by activating a licence key against the Thalir licence service. Activation binds your licence key to one physical box, identified by its network hardware address and machine id. This binding keeps each licence key tied to a single box. You may not run one licence key on more than one box. To move your licence to a different box, ask Thalir Innovations or an authorised dealer to release the existing binding.
 
 **5. Your Data and Local Control**
 
@@ -34,21 +34,21 @@ The software includes Home Assistant base images, Node.js and npm packages, and 
 
 **8. Term and Termination**
 
-This licence runs for the licence period shown in the CINEXIS console. You may renew it according to the terms of your order. CINEXIS may terminate this licence if you breach these terms. When this licence ends, you must stop using the software. You keep your data after termination.
+This licence runs for the licence period shown in your Thalir account portal. You may renew it according to the terms of your order. Thalir Innovations may terminate this licence if you breach these terms. When this licence ends, you must stop using the software. You keep your data after termination.
 
 **9. Warranty**
 
-CINEXIS provides the software as is, to the extent the law allows.
+Thalir Innovations provides the software as is, to the extent the law allows.
 THE SOFTWARE COMES WITH NO WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
-CINEXIS does not warrant WhatsApp's or Telegram's services, since CINEXIS does not control them. If you use WhatsApp Web, you accept the risk that WhatsApp may restrict or suspend your account. You take that risk, not CINEXIS.
+Thalir Innovations does not warrant WhatsApp's or Telegram's services, since Thalir Innovations does not control them. If you use WhatsApp Web, you accept the risk that WhatsApp may restrict or suspend your account. You take that risk, not Thalir Innovations.
 
 **10. Limitation of Liability**
 
-CINEXIS's total liability under this licence is limited to the fees you paid in the twelve months before your claim. This limit does not apply where Indian law does not allow liability to be limited. Nothing here limits liability that the law says cannot be limited.
+Thalir Innovations' total liability under this licence is limited to the fees you paid in the twelve months before your claim. This limit does not apply where Indian law does not allow liability to be limited. Nothing here limits liability that the law says cannot be limited.
 
 **11. Privacy**
 
-The add-on sends your licence key, box identity, software version, and health signals to cinexis.cloud. This supports activation and lets CINEXIS keep the service running. Your message content stays on your box. It only reaches the cloud if you turn on a cloud feature, such as AI, that needs it. See the CINEXIS privacy notice at cinexis.cloud/privacy for more detail.
+The add-on sends your licence key, box identity, software version, and health signals to the Thalir licence service. This supports activation and lets Thalir Innovations keep the service running. Your message content stays on your box. It only reaches the cloud if you turn on a cloud feature, such as AI, that needs it. See the Thalir privacy notice at thalirone.com/privacy for more detail.
 
 **12. Governing Law**
 
@@ -56,6 +56,6 @@ This licence is governed by the law of India. The courts of Bengaluru have exclu
 
 **13. Contact**
 
-For questions about this licence, contact CINEXIS at support@cinexis.cloud.
+For questions about this licence, contact Thalir Innovations at hello@thalirone.com.
 
-Version 1.0, 18 September 2026.
+Version 1.1, 4 October 2026. Version 1.1 changes the licensor's trade name to Thalir Innovations and its contact details; the terms are otherwise unchanged from version 1.0 of 18 September 2026.

@@ -2,7 +2,7 @@
 
 `icon.png` (256×256) and `logo.png` (250×100) in this folder are **provisional**.
 They exist so the Home Assistant store tile is not blank during the private
-pilot. They are placeholders, not the CINEXIS brand marks, and they are expected
+pilot. They are placeholders, not the Thalir brand marks, and they are expected
 to be replaced before any wider release.
 
 Home Assistant's requirements, for whoever produces the real ones:
