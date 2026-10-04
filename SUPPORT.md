@@ -38,9 +38,16 @@ Every release publishes:
 * build provenance from the workflow that produced it;
 * checksums and a signature.
 
-Images are built by GitHub Actions in this repository, from the source in this
-repository. The workflow is in `.github/workflows/`. You can read exactly what
-produced the image you are running.
+**Thalir Home** is built by GitHub Actions in this repository, from the source
+in this repository. The workflow is in `.github/workflows/`, so you can read
+exactly what produced the image you are running.
+
+**Thalir Smart Home Bot** is built from a private Thalir source repository and
+ships its code sealed, to be unlocked on your box by your licence. Its release
+workflow publishes the same artifacts listed above. Before an image is
+published, it is scanned, and every finding rated high or critical, or scored 7
+or more, must match a reviewed, dated decision backed by evidence from that exact
+image. If any finding does not, the release is not published.
 
 ## If a subscription lapses
 
