@@ -1,5 +1,12 @@
 # Changelog
 
+## 4.3.9 — 4 October 2026
+
+- Patched the bundled X rendering library, which the image-resizing and face-recognition components load, against a recently published advisory, using the fix its developers published ahead of their next release. The add-on never connects to an X display, so this closes a theoretical risk rather than an active one. Messaging, device control, permissions and saved automations are unchanged.
+- Updated three bundled libraries to versions without recently published security advisories: the HTTP client (axios 1.20.0), a filename-pattern helper (brace-expansion 1.1.21) and an address parser (ip-address 10.7.3). The advisories cover denial of service through crafted input and incorrect address-range checks. Messaging, device control, permissions and saved automations are unchanged.
+- Administrators can pause a device's six-hour left-on reminders with `alerts ignore <device> for 2h`, ignore them permanently, list ignored devices and restore reminders with `alerts resume <device>`. Preferences survive restarts; no device, automation or safety alert is changed. Exact names, aliases and entity IDs are supported, with ambiguous names rejected.
+- Left-on reminders no longer treat a refused or failed message submission as a successful alert. They retry on the next hourly check while the device still qualifies. Hidden devices and stale Home Assistant readings are excluded. AC modes such as Cool are covered, with time clearly described as mode duration, not compressor runtime.
+
 ## 4.3.8 — 25 September 2026
 
 - Turn lights, switches and fans on or off using their exact displayed name, including numbered names such as `studio lights 1 off` or `turn off studio lights 1`. Device names and aliases are matched before room-wide guesses or brightness values, without AI. Duplicate names ask you to choose; an unrecognised number on a matching light name does not switch the whole room. Existing permissions, approval, location and access-hour checks remain in force.
