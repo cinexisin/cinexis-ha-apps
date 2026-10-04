@@ -31,6 +31,41 @@ phone-side decryption or reading.
 
 ## Options
 
+### Device left-on reminders
+
+The built-in reminder checks once per hour for visible lights, switches and fans
+that Home Assistant reports on for at least six hours. AC reminders cover active
+HVAC modes (Cool, Heat, Auto, Heat/Cool, Dry, Fan only); their duration is time in
+that mode, **not measured compressor runtime or electricity consumption**. Time
+comes from HA's last state change, not from when the bot started. An HA restart,
+unavailable state or mode change can reset that timestamp; unobserved time is not
+invented. A qualifying device may therefore alert up to an hour after six hours.
+
+Administrator commands on WhatsApp or Telegram:
+
+- `alerts ignore Living Light for 2h` — pause reminders (1 minute–30 days, using
+  whole minutes, hours or days: `30m`, `2h`, `1d`).
+- `alerts ignore Living Light permanently` — stop these reminders until restored.
+- `alerts ignored` — show active pauses/permanent ignores and exact device IDs.
+- `alerts resume Living Light` — restore; if still overdue, the next hourly check
+  may send a reminder. `alerts help` shows this command guide.
+
+Use an exact name, alias or entity ID. Ambiguous names change nothing; use the
+listed ID to choose. Settings persist across bot restarts and apply to this
+home's built-in reminders, not just the chat where you typed the command.
+Pauses expire automatically; re-enabling does not send an immediate test alert.
+Permanent ignores never expire automatically. An in-flight message already
+submitted cannot be recalled by pausing a reminder.
+
+The existing recipient remains the configured administrator's WhatsApp number.
+These commands **do not** change channels, permissions, device states, device
+schedules, doorbell/security alerts or custom Automations/HA rules (including
+separately configured “Device Left On” rules). The built-in reminder sends once
+per qualifying on-period while the bot runs; a bot restart can repeat it. A
+refused/failed send remains eligible at the next hourly check. Successful
+submission is not proof of phone delivery or decryption. Missing/out-of-date HA
+readings and hidden devices are not used to send reminders.
+
 ### Bulk action picker
 
 In an automation, choose **+ Devices**, **+ Cameras** or **+ Scenes**. Search by name,
