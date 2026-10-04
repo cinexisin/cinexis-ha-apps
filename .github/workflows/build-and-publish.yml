@@ -97,10 +97,10 @@ jobs:
           labels: |
             org.opencontainers.image.source=https://github.com/${{ github.repository }}
             org.opencontainers.image.url=https://github.com/${{ github.repository }}
-            org.opencontainers.image.title=CINEXIS Home (${{ matrix.arch }})
-            org.opencontainers.image.description=Connects a Home Assistant installation to a CINEXIS account
-            org.opencontainers.image.licenses=LicenseRef-CINEXIS-Proprietary
-            org.opencontainers.image.vendor=CINEXIS
+            org.opencontainers.image.title=Thalir Home (${{ matrix.arch }})
+            org.opencontainers.image.description=Connects a Home Assistant installation to a Thalir account
+            org.opencontainers.image.licenses=LicenseRef-Thalir-Proprietary
+            org.opencontainers.image.vendor=Thalir Innovations
             org.opencontainers.image.version=${{ steps.ver.outputs.version }}
             org.opencontainers.image.revision=${{ github.sha }}
 
