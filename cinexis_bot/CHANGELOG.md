@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.4.1 — 8 November 2026
+
+- **The bot now notices when the KNX bus stops answering.** Home Assistant marks a KNX light on the moment it sends the command and relies on the bus to confirm it, so with the KNX IP router off, every report and dashboard kept showing lights on that were in fact dark. The add-on now watches Home Assistant's KNX telegram traffic every minute. After ten minutes of commands and status requests with nothing coming back, the administrator is told to check the KNX IP router, and door reports and device updates mark KNX devices as _(unconfirmed)_ with a note saying why. When the bus answers again the administrator hears once more. This check controls nothing; homes without KNX are unaffected.
+- Updated seven bundled libraries to versions without recently published security advisories: the web framework's request parsing and client-address pieces (body-parser 1.20.9, proxy-addr 2.0.8, qs 6.16.2), the HTTP redirect follower (follow-redirects 1.16.2), an address parser (ip-address 10.7.6), the audio metadata reader (music-metadata 11.16.1) and the image library (sharp 0.35.5). The advisories cover denial of service through crafted input and address-trust checks. Messaging, device control, permissions and saved automations are unchanged.
+- Updated two components inside the image against recently published advisories: FFmpeg carries two further upstream fixes (HEVC and AV1 RTP handling), and the subtitle library libass carries the upstream fix for a crafted-subtitle flaw. The image security review was renewed to 8 December 2026, with Ubuntu's updated PCRE2 package requalified and every scanner finding matched to a recorded decision.
+
 ## 4.4.0 — 4 October 2026
 
 - **This add-on is now the Thalir Smart Home Bot.** Its name in the store and the Home Assistant sidebar, every screen, chat reply, alert, report and document now say Thalir, and the screens use the original Thalir mark and colours. Nothing to do on your side: saved automations, the `cinexis.trigger` and `notify.cinexis` services, your secrets and your licence keep working exactly as before.
