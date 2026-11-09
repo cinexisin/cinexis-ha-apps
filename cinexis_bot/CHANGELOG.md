@@ -1,5 +1,10 @@
 # Changelog
 
+## 4.4.2 — 9 November 2026
+
+- **While the KNX bus is not answering, a command's reply no longer repeats the state Home Assistant assumed.** Until now `board light on` answered "🟢 Board Light — on" even with the KNX IP router off, because Home Assistant marks a KNX device on the moment it sends the telegram and the bot read that back. Now, while the bus watch (4.4.1) finds the bus silent, the reply to a command on a KNX device is "🟡 Board Light — on _(unconfirmed)_" with one line saying the command was sent but nothing on the bus confirmed it, so the device may not have changed. A device's status card, the one-device lookup by name and a group's status list mark KNX devices the same way. The tap button under the reply still offers the opposite of what was asked. Devices that are not KNX, and every reply once the bus answers again, are unchanged.
+- The Telegram card on the WhatsApp page showed the bot's name with two @ signs. It now shows one.
+
 ## 4.4.1 — 8 November 2026
 
 - **The bot now notices when the KNX bus stops answering.** Home Assistant marks a KNX light on the moment it sends the command and relies on the bus to confirm it, so with the KNX IP router off, every report and dashboard kept showing lights on that were in fact dark. The add-on now watches Home Assistant's KNX telegram traffic every minute. After ten minutes of commands and status requests with nothing coming back, the administrator is told to check the KNX IP router, and door reports and device updates mark KNX devices as _(unconfirmed)_ with a note saying why. When the bus answers again the administrator hears once more. This check controls nothing; homes without KNX are unaffected.
