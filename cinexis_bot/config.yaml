@@ -3,7 +3,7 @@
 # stay in step with that add-on's config.yaml except for the `image:` line.
 name: Thalir Smart Home Bot
 description: Home automation through WhatsApp and Telegram — devices, scenes, schedules, door and gate notifications, a daily report and the Thalir home dashboard, all local-first.
-version: "4.4.1"
+version: "4.4.2"
 slug: cinexis_bot
 url: https://thalirone.com
 

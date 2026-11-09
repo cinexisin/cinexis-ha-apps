@@ -20,7 +20,7 @@ phone-side decryption or reading.
 - **Schedules, scenes, rooms, timers, broadcast, voice notes** with local or cloud transcription.
 - **Daily report.** Yesterday's device use, the busiest hour and who asked for what, to the administrator every morning, with a PDF.
 - **Dashboard.** The Thalir round home dashboard, generated for this site from its rooms and devices and installed with one click from the Dashboard page. Later add-on updates refresh it on their own, unless you change it in Home Assistant.
-- **Watchfulness.** The administrator hears when the Thalir cloud is unreachable, when the site's internet was down, and when Home Assistant's KNX bus stops answering (reports then mark KNX devices as unconfirmed), and again when each is back.
+- **Watchfulness.** The administrator hears when the Thalir cloud is unreachable, when the site's internet was down, and when Home Assistant's KNX bus stops answering (command replies, status cards and reports then mark KNX devices as unconfirmed), and again when each is back.
 
 ## Installation
 
