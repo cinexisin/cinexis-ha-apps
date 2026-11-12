@@ -1,5 +1,12 @@
 # Changelog
 
+## 4.5.0 — 12 November 2026
+
+- **Tuya devices can now be driven through the Tuya cloud, so the bot can run on a server for a home that has no Home Assistant.** Until now a Tuya device was reached only on the local network. Settings → Tuya gained a *Control path*: automatic (LAN when the device is on this network, cloud otherwise, each falling back to the other), LAN only, or cloud only. Cloud control uses the same iot.tuya.com project credentials as the import and the India data centre when chosen. Devices linked through the project's *Link App Account* page (any Tuya-based app, Wipro Next included) are imported even when the cloud reports no local key.
+- The setup wizard accepts a home without Home Assistant (*I don't use Home Assistant*): no address is stored, the Home Assistant integration is turned off, and nothing waits on a connection that will never come.
+- The image ships a hosted entry point (`/cloud-run.sh`) and `deploy/hosted/docker-compose.yml` for running the release image with plain Docker on a server. Telegram, the WhatsApp hub, the licence loader and the web UI are unchanged.
+- Updated the XML parser inside the image to stable Expat 2.8.5 against a recently published advisory (malformed UTF-16 input is now rejected), removed the unused `nsenter` tool from the image, and recorded that Perl's Archive::Tar module is not present. The image security review was amended on 12 November 2026 with every scanner finding matched to a recorded decision; its 8 December review date is unchanged. Messaging, device control, permissions and saved automations are unchanged.
+
 ## 4.4.2 — 9 November 2026
 
 - **While the KNX bus is not answering, a command's reply no longer repeats the state Home Assistant assumed.** Until now `board light on` answered "🟢 Board Light — on" even with the KNX IP router off, because Home Assistant marks a KNX device on the moment it sends the telegram and the bot read that back. Now, while the bus watch (4.4.1) finds the bus silent, the reply to a command on a KNX device is "🟡 Board Light — on _(unconfirmed)_" with one line saying the command was sent but nothing on the bus confirmed it, so the device may not have changed. A device's status card, the one-device lookup by name and a group's status list mark KNX devices the same way. The tap button under the reply still offers the opposite of what was asked. Devices that are not KNX, and every reply once the bus answers again, are unchanged.

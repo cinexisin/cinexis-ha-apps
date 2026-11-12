@@ -288,6 +288,12 @@ Thalir support access: on by default, the switch on the same card lets Thalir su
 
 Nothing on this box depends on the cloud. If the connection drops, local control, the linked WhatsApp, Telegram and every rule keep working, and the link reconnects on its own.
 
+## Tuya devices from anywhere
+
+A Tuya device (sold as Wipro Next, Smart Life, Tuya Smart and many other names) is driven on the local network when the bot runs at home, and through the Tuya cloud when it does not. Settings → Tuya has a *Control path*: **Automatic** uses the LAN when the device has a local address and the cloud otherwise, each falling back to the other; **LAN only** and **Cloud only** use just that path. Cloud control needs the same iot.tuya.com project credentials as the device import, with the region set to the data centre the project lives in (India for Indian accounts). Link the home's app on the project's *Devices → Link App Account* page, then import under Tuya Devices.
+
+The bot can also run with no Home Assistant at all, on a server, for a home whose devices are all Tuya: tick *I don't use Home Assistant* in the setup wizard and set the control path to cloud only. `deploy/hosted/` in the repository has the compose file and the steps.
+
 ## Activation and licence
 
 The first start asks for your licence key on the add-on's own page: open the add-on from the Home Assistant sidebar, enter the key from your Thalir order or console, and the bot starts. That needs the internet once. From then on the add-on starts on its own, online or not.
