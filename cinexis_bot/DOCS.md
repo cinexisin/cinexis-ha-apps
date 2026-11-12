@@ -292,7 +292,7 @@ Nothing on this box depends on the cloud. If the connection drops, local control
 
 A Tuya device (sold as Wipro Next, Smart Life, Tuya Smart and many other names) is driven on the local network when the bot runs at home, and through the Tuya cloud when it does not. Settings → Tuya has a *Control path*: **Automatic** uses the LAN when the device has a local address and the cloud otherwise, each falling back to the other; **LAN only** and **Cloud only** use just that path. Cloud control needs the same iot.tuya.com project credentials as the device import, with the region set to the data centre the project lives in (India for Indian accounts). Link the home's app on the project's *Devices → Link App Account* page, then import under Tuya Devices.
 
-The bot can also run with no Home Assistant at all, on a server, for a home whose devices are all Tuya: tick *I don't use Home Assistant* in the setup wizard and set the control path to cloud only. `deploy/hosted/` in the repository has the compose file and the steps.
+The bot can also run with no Home Assistant at all, on a server, for a home whose devices are all Tuya: tick *I don't use Home Assistant* in the setup wizard and set the control path to cloud only. `deploy/hosted/` in the repository has the compose file and the steps. The browser that finishes the wizard is signed in; later sign-ins send the code on Telegram once you have sent the bot `/start` from the admin account, since a hosted box has no WhatsApp. The Wipro Next app does not accept Tuya's *Link App Account* code: add that home's devices to the Smart Life app (a separate Smart Life account keeps homes apart) and link that account to the project.
 
 ## Activation and licence
 

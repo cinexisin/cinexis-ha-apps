@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.5.1 — 12 November 2026
+
+- **Finishing the setup wizard signs you in.** The browser that completes the first-run wizard is the admin's, so the dashboard and Settings open straight away instead of asking for a login code first. On a server without Home Assistant there was no way to receive that code yet, which locked the admin out of the bot they had just set up.
+- **Login codes arrive on Telegram when the bot has no WhatsApp.** On the sign-in page, enter the admin phone number as before; if the bot has no WhatsApp provider but your Telegram is linked (send `/start` to the bot from the admin account once), the code is sent to your Telegram chat. The code, its expiry and the attempt limits are unchanged.
+- Documentation: the Wipro Next app does not accept Tuya's *Link App Account* code; a home on that app is linked through the Smart Life app instead. The 4.5.0 note said otherwise.
+
 ## 4.5.0 — 12 November 2026
 
 - **Tuya devices can now be driven through the Tuya cloud, so the bot can run on a server for a home that has no Home Assistant.** Until now a Tuya device was reached only on the local network. Settings → Tuya gained a *Control path*: automatic (LAN when the device is on this network, cloud otherwise, each falling back to the other), LAN only, or cloud only. Cloud control uses the same iot.tuya.com project credentials as the import and the India data centre when chosen. Devices linked through the project's *Link App Account* page (any Tuya-based app, Wipro Next included) are imported even when the cloud reports no local key.
