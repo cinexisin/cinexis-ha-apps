@@ -29,6 +29,37 @@ phone-side decryption or reading.
 3. Enter your licence key on the activation page, then in the web UI set the bot name and administrator number under Settings, link WhatsApp Web on the WhatsApp page and add your Telegram bot token under Settings. Either channel is enough to begin.
 4. Add people under Users and give them devices under Commands → Device Permissions.
 
+## Verification and recovery
+
+A clean first installation and the first start after a version update need the
+internet for activation and that version's release key. Subsequent starts of
+the same activated version use the cached key. Local Home Assistant controls
+can work without the cloud or AI; WhatsApp and Telegram still need their own
+networks. Pairing is complete only when the WhatsApp page says Connected and a
+reply appears on the receiving phone.
+
+Before an update, make and download a **Home Assistant backup including this
+add-on's configuration/data**, and record the installed version. Keep that
+backup outside the box. On a dedicated test box, check sign-in, permitted and
+blocked commands, physical device state, reconnect, bot restart and host reboot
+before accepting an update. Never test a gate or door by inventing sensor data.
+
+Settings → **Local backups** saves the bot database (settings, people,
+permissions and rules). It is sensitive and unencrypted; store downloaded ZIPs
+privately. It is not a full Home Assistant backup: licence/release-key files,
+web session secret, WhatsApp pairing files, camera media and other files are
+not included. Restore validates the database and restarts the bot. It restores
+only that database, leaving installed code and existing pairing files alone.
+A valid old ZIP cannot recover changes that were missing when it was created.
+
+For rollback, restore the downloaded pre-update Home Assistant backup on the
+same box using Home Assistant's backup/restore interface. Verify that the
+installed version, settings, people and permissions match the recorded
+baseline, then check pairing and one safe device. A database-only ZIP does not
+downgrade the add-on image. Moving to another box may require licence release
+and WhatsApp pairing again. See `docs/LOCAL_CONTROL_RELEASE.md` in the source
+repository for the acceptance checklist and exact release evidence.
+
 ## Options
 
 ### Device left-on reminders
@@ -188,6 +219,13 @@ marked read. Your WhatsApp read-receipt privacy settings still apply, so blue
 ticks are not guaranteed. A failed read receipt does not delay another reply.
 This feature does not repair a reply that shows “Waiting for this message”;
 successful submission is not proof that the receiving phone decrypted it.
+
+When a phone cannot decrypt a reply it asks the bot for it again, sometimes
+hours later. The bot keeps a copy of each message it sends for two days, on the
+box, so that request is answered even after a restart; the copy is removed with
+the message and never leaves the box. If a reply still shows “Waiting for this
+message” on a phone after that, re-link WhatsApp once from the WhatsApp page:
+that rebuilds the end-to-end sessions with every device on the account.
 
 ## WhatsApp chat cleanup
 

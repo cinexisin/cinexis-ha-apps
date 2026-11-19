@@ -1,5 +1,23 @@
 # Changelog
 
+## 4.5.3 — 19 November 2026
+
+- **WhatsApp Web replies read on the phone again.** Since WhatsApp moved its end-to-end sessions to hidden identities, the linked companion's replies arrived on WhatsApp desktop but showed "Waiting for this message" on the phone itself; every reply needed a decrypt retry, and a retry that came after the bot had restarted could not be answered at all. The WhatsApp Web library is now version 7 (7.0.0-rc14), which migrates and recreates those sessions and answers retries robustly, and the bot keeps a copy of each message it sends for two days, on the box, so a retry after a restart is answered too. Copies are deleted with the message (chat cleanup, delete for everyone) and never leave the box.
+- A command from a hidden-identity chat is recognised from the phone number the new library carries on it, or from the library's own identity store; an unknown identity is still ignored, never guessed. Nothing changes about who may do what.
+- After this update the phone may ask once more for the first reply it receives while its session migrates. If a reply still shows "Waiting for this message" afterwards, re-link once from the WhatsApp page; a re-link is no longer expected to be needed again.
+- Image security review amended on 19 November 2026 for nine newly reported advisories, review date 8 December unchanged: the XML parser inside the image is stable Expat 2.10.0, the JSON library carries upstream's merge-patch fix, the setuid `mount`/`umount` tools (never used by the bot) are removed from the image, Perl's compression modules are recorded as absent, and two unfixed findings (an mbed TLS key-export routine only reachable through a streaming protocol the bot never uses, and three Python library issues in code the bot never runs) are accepted by the owner until the review date. Messaging, device control, permissions and saved automations are unchanged.
+
+## 4.5.2 — 15 November 2026 (hardware qualification)
+
+- Image qualification now checks that the boot-time component named by a new systemd advisory is absent, while retaining raw findings and the existing security review expiry. Release approval and hardware acceptance remain separate.
+
+- Restarting or linking WhatsApp no longer lets a delayed event from the previous connection disconnect the new session or remove its pairing files. Stopping or unlinking also cancels pending startup work.
+
+- Local backups work after a clean installation and include recently saved settings and permissions. A backup is listed only after it is complete.
+- Restoring checks that the archive contains a readable bot database before replacing current data. Invalid archives leave the running database open. Restore changes only the bot database and leaves installed code and linked WhatsApp session files alone.
+- Restore responses complete without trying to update the closed database session while the bot restarts.
+- Candidate native runtime and reviewed image-security checks pass on both supported processors. Production-artifact checks repeat during publication; client installations remain on hold until dedicated Home Assistant test-box acceptance is complete.
+
 ## 4.5.1 — 12 November 2026
 
 - **Finishing the setup wizard signs you in.** The browser that completes the first-run wizard is the admin's, so the dashboard and Settings open straight away instead of asking for a login code first. On a server without Home Assistant there was no way to receive that code yet, which locked the admin out of the bot they had just set up.
